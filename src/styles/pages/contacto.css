@@ -1,0 +1,53 @@
+
+.contact-page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 50px;        /* 👈 separación desde el navbar */
+}
+
+.contacto-container {
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  
+}
+
+.contacto-title {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #222;
+  font-weight: 700;
+  
+}
+
+.contacto-subtitle {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #555;
+}
+
+.contacto-form label {
+  font-weight: 500;
+  color: #333;
+  
+}
+
+.contacto-form input,
+.contacto-form textarea {
+  border-radius: 10px;
+  border: 1px solid #ccc;
+  padding: 10px 15px;
+  
+}
+
+.contacto-form input:focus,
+.contacto-form textarea:focus {
+  border-color: #d13232;
+  box-shadow: 0 0 0 0.25rem rgba(209, 50, 50, 0.25);
+  outline: none;
+  
+}

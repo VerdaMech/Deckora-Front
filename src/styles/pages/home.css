@@ -1,0 +1,142 @@
+.home-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+  padding-top: 50px;
+}
+
+
+.profile-name {
+  text-align: center;
+  margin: 0 0 42px 0;
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #fff;
+  border: 2px solid #fff;
+  display: inline-block;
+  padding: 10px 40px;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(4px);
+}
+
+
+
+.slider-section {
+  background: radial-gradient(circle at top, #111827 0%, #020617 55%, #000 100%);
+  padding: 3.5rem 1rem 4rem;
+  color: #e5e7eb;
+  text-align: center;
+}
+
+.slider-header {
+  max-width: 900px;
+  margin: 0 auto 2.5rem;
+}
+
+.slider-tag {
+  display: inline-block;
+  padding: 0.15rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(148, 163, 184, 0.6);
+}
+
+.slider-title {
+  margin-top: 1rem;
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+
+.slider-title span {
+  color: #38bdf8;
+}
+
+.slider-subtitle {
+  margin-top: 0.4rem;
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
+
+.slider-cards {
+  margin: 0 auto;
+  max-width: 900px;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  perspective: 1200px;
+}
+
+.deckora-card {
+  width: 240px;
+  height: 310px;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #020617;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  transform-origin: center bottom;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  animation: float 3s ease-in-out infinite alternate;
+}
+
+.deckora-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.deckora-card:nth-child(1) {
+  transform: rotateY(18deg) translateY(18px);
+  animation-delay: 0s;
+}
+.deckora-card:nth-child(2) {
+  transform: rotateY(9deg) translateY(8px);
+  animation-delay: 0.2s;
+}
+.deckora-card:nth-child(3) {
+  transform: scale(1.05);
+  animation-delay: 0.4s;
+}
+.deckora-card:nth-child(4) {
+  transform: rotateY(-9deg) translateY(8px);
+  animation-delay: 0.6s;
+}
+.deckora-card:nth-child(5) {
+  transform: rotateY(-18deg) translateY(18px);
+  animation-delay: 0.8s;
+}
+
+.deckora-card:hover {
+  transform: translateY(-10px) scale(1.06);
+  box-shadow: 0 25px 60px rgba(56, 189, 248, 0.8);
+  border-color: rgba(56, 189, 248, 0.9);
+}
+
+@keyframes float {
+  from {
+    transform: translateY(0) scale(1);
+  }
+  to {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+@media (max-width: 768px) {
+  .slider-cards {
+    gap: 0.8rem;
+  }
+
+  .deckora-card {
+    width: 100px;
+    height: 150px;
+  }
+
+  .slider-title {
+    font-size: 1.6rem;
+  }
+}
