@@ -1,0 +1,117 @@
+.carrito-page {
+  min-height: calc(100vh - 64px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 40px 16px 80px;
+}
+
+.carrito-title {
+  margin: 0 auto 32px auto;
+  padding: 10px 60px;
+  border-radius: 999px;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #ffffff;
+  border: 2px solid #ffffff;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+}
+
+.carrito-item {
+  padding: 10px 16px;
+  background: rgba(12, 12, 12, 0.65);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+}
+
+.carrito-item-image {
+  width: 70px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.carrito-item-img {
+  width: 150px;
+  height: 210px;
+  object-fit: cover;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.carrito-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.carrito-item-subtotal {
+  margin-left: auto;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+
+.carrito-pay-btn {
+  padding: 10px 26px;
+  border-radius: 999px;
+  border: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  background: linear-gradient(135deg, #66ff00, #ecfd00);
+  color: #000000d0 !important;
+
+}
+.carrito-pay-btn:hover,
+.carrito-pay-btn:focus {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(35, 197, 62, 0.6);
+  background: linear-gradient(135deg, #6cb428, #42a325);
+}
+.carrito-pay-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(208, 255, 0, 0.5);
+}
+
+.carrito-total-wrapper {
+  margin-top: 24px;
+  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;     
+}
+
+.carrito-total {
+  display: inline-block;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  font-size: 1.2rem;
+}
+
+
+@media (max-width: 576px) {
+  .carrito-item {
+    flex-direction: row;
+    align-items: flex-start;
+  }
+
+  .carrito-item-image {
+    width: 60px;
+    height: 85px;
+  }
+
+  .carrito-total-wrapper {
+    text-align: center;
+  }
+}

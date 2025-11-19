@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -14,6 +13,7 @@ function NavBar() {
         <NavLink to="/proyectos">Productos</NavLink>
         <NavLink to="/noticias">Accesorios</NavLink>
         <NavLink to="/contacto">Inicio de sesión</NavLink>
+        <NavLink to="/carrito">Carrito</NavLink>
       </div>
     </nav>
   );
@@ -21,10 +21,3 @@ function NavBar() {
 
 export default NavBar;
 
-
-// NavBar eliminado según solicitud. Si necesitas una barra personalizada, puedes crearla aquí.
-
-// Si quieres asociar la ruta de productos a "Proyectos", simplemente cambia la ruta y el nombre en el componente de rutas principal (por ejemplo, en App.jsx o donde definas las rutas).
-
-// Ejemplo de cómo podrías reutilizar el código de Products para Proyectos:
-// <Route path="/proyectos" element={<Products />} />
