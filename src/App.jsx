@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
+
 import Home from './pages/Home';
 import Products from './pages/Products';
 import ProductDetail from './pages/ProductDetail';
@@ -13,10 +14,14 @@ import ProductosAdmin from './pages/admin/ProductosAdmin';
 import EditarProductosAdmin from './pages/admin/EditarProductosAdmin';
 import Carrito from './pages/carrito';
 
+import adminHome from './data/adminHome';
 import productsData from './data/products';
+import users from './data/users';
 
 import '../src/styles/global.css';
 import '../src/styles/organisms/footer.css';
+import HomeAdmin from './pages/admin/HomeAdmin';
+import UsuariosAdmin from './pages/admin/UsuariosAdmin';
 
 function App() {
   const [products, setProducts] = useState(() => {
@@ -54,14 +59,18 @@ function App() {
       <main className="app-main">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/proyectos" element={<Products products={products} />} />
-          <Route path="/proyectos/:id" element={<ProductDetail products={products} addToCart={addToCarrito} />} />
-          <Route path="/admin/productos" element={<ProductosAdmin products={products} setProducts={setProducts} />} />
-          <Route path="/admin/productos/:id/editar" element={<EditarProductosAdmin products={products} setProducts={setProducts} />} />
+          <Route path="/productos" element={<Products products={products} />} />
+          <Route path="/productos/:id" element={<ProductDetail products={products} addToCart={addToCarrito} />} />
           <Route path="/noticias" element={<Noticias />} />
           <Route path="/noticias/:id" element={<NoticiasDetail />} />
-          <Route path="/contacto" element={<Contacto />} />
+          <Route path="/login" element={<Contacto />} />
           <Route path="/carrito" element={<Carrito carrito={carrito} limpiarCarrito={limpiarCarrito} />} />
+          {/* admin */}
+          <Route path="/admin/home" element={<HomeAdmin adminHome={adminHome} />} />
+          <Route path="/admin/usuarios" element={<UsuariosAdmin users={users}/>}/>
+          <Route path="/admin/productos" element={<ProductosAdmin products={products} setProducts={setProducts} />} />
+          <Route path="/admin/productos/:id/editar" element={<EditarProductosAdmin products={products} setProducts={setProducts} />} />
+          
         </Routes>
       </main>
 

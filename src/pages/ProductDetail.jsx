@@ -60,7 +60,7 @@ function ProductDetail({ products, addToCart }) {
 
             <Button
               variant="primary"
-              onClick={() => navigate('/proyectos')}
+              onClick={() => navigate('/productos')}
               className="mt-3 d-block w-auto mx-auto"
             >
               Volver a productos

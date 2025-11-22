@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import logo from '../../../public/fotoPerfil/perfil.webp';
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -9,7 +10,7 @@ function Footer() {
       <div className="footer-top">
         <div className="footer-brand">
           <img
-            src="public/fotoperfil/perfil.webp"
+            src={logo}
             alt="Logo Deckora"
             className="footer-logo"
           />
