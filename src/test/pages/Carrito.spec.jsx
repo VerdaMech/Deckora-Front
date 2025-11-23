@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Carrito from '../../pages/carrito';
+import Carrito from '../../pages/Carrito';
 
 
 describe('Carrito Page', () => {
@@ -64,3 +64,4 @@ describe('Carrito Page', () => {
     expect(totalTexto).toHaveClass('carrito-total');
   });
 });
+
