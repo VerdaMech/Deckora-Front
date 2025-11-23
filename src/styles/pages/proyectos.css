@@ -49,3 +49,20 @@
   transform: translateY(-8px);
   box-shadow: 0 8px 25px rgba(255, 255, 255, 0.15);
 }
+
+
+/* Esto es para el formato Admin lo que agregare abajito */
+
+.admin-product-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.admin-actions {
+  margin-top: 0.75rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-block-end: 50px;
+}

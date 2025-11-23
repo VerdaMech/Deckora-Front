@@ -9,7 +9,7 @@ function Contacto() {
   return (
      <div className="contact-page">
       <Container className="contacto-container">
-        <h1 className="contacto-title">Iniciar sesión</h1>
+        <h1 className="contacto-title">Contactanos</h1>
         <Form className="contacto-form">
             <Form.Group className="mb-3" controlId="nombre">
                 <Form.Label>Nombre</Form.Label>
@@ -22,7 +22,7 @@ function Contacto() {
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="comentario">
-                <Form.Label>Contraseña</Form.Label>
+                <Form.Label>Comentario</Form.Label>
                 <Form.Control as="textarea" rows={4} id="comentario" placeholder="Escribe tu mensaje..." />
             </Form.Group>
 

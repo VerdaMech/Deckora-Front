@@ -1,5 +1,7 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {Link } from 'react-router-dom';
+import '../../styles/organisms/footer.css';
+import logo from '../../../public/fotoPerfil/perfil.webp';
 
 function Footer() {
   const year = new Date().getFullYear();
@@ -9,7 +11,7 @@ function Footer() {
       <div className="footer-top">
         <div className="footer-brand">
           <img
-            src="public/fotoperfil/perfil.webp"
+            src={logo}
             alt="Logo Deckora"
             className="footer-logo"
           />
@@ -22,7 +24,11 @@ function Footer() {
           </div>
         </div>
         <div className="footer-contact">
-          <h5>Contacto</h5>
+          <h5>
+            <Link to="/contacto" className="footer-link">
+            Contacto
+            </Link>
+            </h5>
           <p>Email: contacto@deckora.cl</p>
           <p>Instagram: @deckora</p>
         </div>

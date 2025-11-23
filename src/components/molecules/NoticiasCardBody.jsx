@@ -1,20 +1,19 @@
 import React from 'react';
-import Text from '../atoms/Text';
 
-function NoticiasCardBody({ title, summary, category }) {
-
+const NoticiasCardBody = ({ title, description, category }) => {
   return (
-    <>
-      <Text variant="h5">{title}</Text>
-      <Text variant="p">{summary}</Text>
-      
-      {category && (
-        <Text variant="span" className="text-muted">
-          {category}
-        </Text>
+    <div className="card-body">
+      <h5>{title}</h5>
+
+      {description && (
+        <p>{description}</p>
       )}
-    </>
+
+      {category && (
+        <span className="text-muted">{category}</span>
+      )}
+    </div>
   );
-}
+};
 
 export default NoticiasCardBody;

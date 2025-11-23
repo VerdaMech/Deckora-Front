@@ -1,38 +1,44 @@
-
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Home from '../../pages/Home';
 import { MemoryRouter } from 'react-router-dom';
-
+import Home from '../../pages/Home';
 
 describe('Home Page', () => {
-  it('renderiza el nombre del perfil', () => {
+  it('renderiza el título principal "Somos Deckora"', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    const name = screen.getByText('Javier Vieytes');
-    expect(name).toBeTruthy();
+
+    const title = screen.getByText('Somos Deckora');
+    expect(title).toBeTruthy();
+    expect(title).toHaveClass('profile-name'); 
   });
 
-  it('renderiza el párrafo de descripción', () => {
+  it('renderiza el contenedor de la home con la clase "home-container"', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    const desc = screen.getByText('Estudiante de informática Duoc UC');
-    expect(desc).toBeTruthy();
+
+    const title = screen.getByText('Somos Deckora');
+    const container = title.closest('div');
+
+    expect(container).toBeTruthy();
+    expect(container).toHaveClass('home-container');
   });
 
-  it('renderiza el párrafo de bienvenida', () => {
+  it('incluye el slider de Deckora (buscando una de las cartas)', () => {
     render(
       <MemoryRouter>
         <Home />
       </MemoryRouter>
     );
-    const welcome = screen.getByText(/este es mi portafolio/i);
-    expect(welcome).toBeTruthy();
+
+
+    const cardImage = screen.getByAltText('Carta 1');
+    expect(cardImage).toBeTruthy();
   });
 });

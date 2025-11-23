@@ -1,30 +1,66 @@
-
 import React from 'react';
+import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
+import logo from '../../../public/fotoPerfil/perfil.webp';
 
-function NavBar() {
+
+function NavBar({ usuarioActual, onLogout }) {
+  const esAdmin = usuarioActual?.tipoUsuario === 2;
+
   return (
-    <nav className="navbar-custom">
-       <div className="navbar-brand">
-        <img src="public/fotoperfil/perfil.webp"alt="Logo Deckora" className="navbar-logo"/>
-        <span className="navbar-title">Deckora</span>
-      </div>
-      <div className="navbar-links">
-        <NavLink to="/" end>Home</NavLink>
-        <NavLink to="/proyectos">Productos</NavLink>
-        <NavLink to="/noticias">Accesorios</NavLink>
-        <NavLink to="/contacto">Inicio de sesión</NavLink>
-      </div>
-    </nav>
+    <Navbar className="navbar-custom" variant="dark" expand="lg">
+      <Container>
+        <div className="navbar-brand">
+          <img src={logo} alt="Logo Deckora" className="navbar-logo" />
+          <span className="navbar-title">Deckora</span>
+        </div>
+
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto gap-3 navbar-links">
+            <NavLink to="/" end>Home</NavLink>
+            <NavLink to="/productos">Productos</NavLink>
+            <NavLink to="/noticias">Accesorios</NavLink>
+            <NavLink to="/carrito">Carrito</NavLink>
+
+
+            {esAdmin && (
+              <>
+                <NavLink to="/admin/home">Admin</NavLink>
+                <NavLink to="/admin/productos">Admin productos</NavLink>
+                <NavLink to="/admin/usuarios">Admin usuarios</NavLink>
+              </>
+            )}
+          </Nav>
+
+          <Nav className="me-auto gap-3 navbar-links">
+            {!usuarioActual && (
+              <NavLink to="/login" className="login-link"> 
+                Inicio de sesión
+              </NavLink>
+            )}
+
+            {usuarioActual && (
+              <>
+                <span className="me-auto gap-3 navbar-links">
+                  Hola, {usuarioActual.nombre}
+                </span>
+                <button
+                  type="button"
+                  className="navbar-logout-btn"
+                  onClick={onLogout}
+                >
+                  Cerrar sesión
+                </button>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
   );
 }
 
 export default NavBar;
 
 
-// NavBar eliminado según solicitud. Si necesitas una barra personalizada, puedes crearla aquí.
-
-// Si quieres asociar la ruta de productos a "Proyectos", simplemente cambia la ruta y el nombre en el componente de rutas principal (por ejemplo, en App.jsx o donde definas las rutas).
-
-// Ejemplo de cómo podrías reutilizar el código de Products para Proyectos:
-// <Route path="/proyectos" element={<Products />} />
