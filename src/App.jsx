@@ -26,7 +26,7 @@ import UsuariosAdmin from './pages/admin/UsuariosAdmin';
 
 function App() {
   const [products, setProducts] = useState(() => {
-    const stored = localStorage.getItem('products_v2');
+    const stored = localStorage.getItem('products_v3');
     return stored ? JSON.parse(stored) : productsData;
   });
 
@@ -34,7 +34,7 @@ function App() {
   const navigate = useNavigate();
   
   useEffect(() => {
-    localStorage.setItem('products_v2', JSON.stringify(products));
+    localStorage.setItem('products_v3', JSON.stringify(products));
   }, [products]);
 
   const [carrito, setCarrito] = useState([]);
