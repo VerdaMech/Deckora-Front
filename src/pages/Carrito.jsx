@@ -1,6 +1,6 @@
 import React from 'react';
 import Button from '../components/atoms/Button';
-import '../styles/pages/carrito.css';
+import '../styles/pages/Carrito.css';
 import { pagar } from '../data/pago';
 
 function Carrito({ carrito = [], limpiarCarrito }) {     
@@ -61,3 +61,4 @@ function Carrito({ carrito = [], limpiarCarrito }) {
 }
 
 export default Carrito;
+
