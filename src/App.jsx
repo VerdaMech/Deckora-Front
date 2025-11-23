@@ -12,7 +12,7 @@ import NavBar from './components/organisms/NavBar';
 import Footer from './components/organisms/footer';
 import ProductosAdmin from './pages/admin/ProductosAdmin';
 import EditarProductosAdmin from './pages/admin/EditarProductosAdmin';
-import Carrito from './pages/carrito';
+import Carrito from './pages/Carrito';
 import Login from './pages/Login';
 
 import adminHome from './data/adminHome';
