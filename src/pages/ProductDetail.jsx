@@ -1,18 +1,16 @@
 import React from 'react';
 import { Container, Card } from 'react-bootstrap';
-import { useParams } from 'react-router-dom';
-import products from '../data/products.js';
+import { useParams, useNavigate } from 'react-router-dom';
 import Image from '../components/atoms/Image.jsx';
 import Text from '../components/atoms/Text.jsx';
-import NavBar from '../components/organisms/NavBar.jsx'; 
-import '../styles/pages/proyectosDetail.css';
 import Button from '../components/atoms/Button.jsx';
-import { useNavigate } from 'react-router-dom';
+import '../styles/pages/proyectosDetail.css';
 
-function ProductDetail() {
+function ProductDetail({ products, addToCart }) {  
   const { id } = useParams();
-  const product = products.find((p) => p.id === parseInt(id));
   const navigate = useNavigate();
+
+  const product = products.find((p) => p.id === parseInt(id));
 
   if (!product) {
     return (
@@ -28,17 +26,41 @@ function ProductDetail() {
     <div className="product-detail-page">
       <Container>
         <Card className="project-detail-card">
-          <Image src={product.image} alt={product.name} className="card-img-top" />
-          <Card.Body>
-            <Text variant="h2" className="project-detail-title">{product.name}</Text>
-            
-            <Text variant="p">{product.description}</Text>
+          <Image
+            src={product.image}
+            alt={product.name}
+            className="card-img-top"
+          />
+          <Card.Body className="project-detail-body">
+            <Text variant="h2" className="project-detail-title">
+              {product.name}
+            </Text>
 
-            <Text variant="v">${product.price}</Text>
+            {product.section && (
+              <Text variant="span" className="project-detail-meta">
+                {product.section}
+              </Text>
+            )}
+
+            <Text variant="p" className="project-detail-text">
+              {product.description}
+            </Text>
+
+            <Text variant="v" className="project-detail-price">
+              ${product.price}
+            </Text>
+
+            <Button
+              variant="success"
+              onClick={() => addToCart(product)}
+              className="mt-3 d-block w-auto mx-auto"
+            >
+              Agregar al carrito
+            </Button>
 
             <Button
               variant="primary"
-              onClick={() => navigate('/proyectos')}
+              onClick={() => navigate('/productos')}
               className="mt-3 d-block w-auto mx-auto"
             >
               Volver a productos
@@ -49,4 +71,5 @@ function ProductDetail() {
     </div>
   );
 }
+
 export default ProductDetail;

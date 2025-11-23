@@ -1,0 +1,32 @@
+/* Quita los espacios gigantes */
+.products-page {
+  padding-top: 2rem !important;
+  padding-bottom: 2rem !important;
+  min-height: auto !important;
+}
+
+/* Centra el contenido y dale aire */
+.projects-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Ajusta el título */
+.projects-title {
+  margin-bottom: 1.5rem !important;
+}
+
+/* La tarjeta centrada y ancho adecuado */
+.product-card,
+.single-card-wrapper {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Responsivo */
+@media (max-width: 576px) {
+  .product-card,
+  .single-card-wrapper {
+    max-width: 95%;
+  }
+}

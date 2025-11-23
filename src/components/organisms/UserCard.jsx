@@ -1,32 +1,31 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import Image from '../atoms/Image';
 import Button from '../atoms/Button';
 import CardBody from '../molecules/CardBody';
 import { useNavigate } from 'react-router-dom';
 
-function ProductCard({ product }) {
+function UserCard({ users }) {
   const navigate = useNavigate();
 
   return (
     <Card style={{ width: '18rem' }} className="m-2">
-      {product.image && (
-        <Image
-          src={product.image}
-          alt={product.name}
-          className="card-img-top"
-        />
-      )}
       <Card.Body>
         <CardBody
-          title={product.name}
-          section={product.section} 
-          price={product.price}
+          title={`${users.nombre} ${users.apellido}`}
+          run={`RUN: ${users.run}`}
+          phoneNumber={`📞 ${users.numero_telefono}`}
         />
+
+        <div className="text-center text-muted mb-2">
+          <small>{users.correo}</small>
+          <br />
+          <small>{users.direccion}</small>
+        </div>
+
         <Button
           variant="primary"
-          onClick={() => navigate(`/productos/${product.id}`)}
-          className="mb-2 d-block w-auto mx-auto"
+          onClick={() => navigate(`/admin/usuarios/${users.id}`)}
+          className="d-block mx-auto"
         >
           Ver detalles
         </Button>
@@ -35,4 +34,4 @@ function ProductCard({ product }) {
   );
 }
 
-export default ProductCard;
+export default UserCard;
