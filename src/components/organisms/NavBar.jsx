@@ -5,7 +5,7 @@ import logo from '../../../public/fotoPerfil/perfil.webp';
 
 function NavBar({ usuarioActual, onLogout }) {
 
-  // ✔ CORRECCIÓN AQUÍ
+  // CORRECCIÓN AQUÍ
   const esAdmin = usuarioActual?.tipoUsuario?.id === 2;
 
   return (
