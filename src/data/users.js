@@ -1,4 +1,4 @@
-const users = [
+/* const users = [
   {
     id: 1,
     contrasenia: "Br1sa!2025",
@@ -67,4 +67,4 @@ const users = [
   }
 ];
 
-export default users;
+export default users; */
