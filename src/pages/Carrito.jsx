@@ -5,7 +5,7 @@ import { pagar } from '../data/pago';
 
 function Carrito({ carrito = [], limpiarCarrito, usuarioActual }) {
 
-  // ✔ TOTAL usando precio real del backend
+  // TOTAL usando precio real del backend
   const total = carrito.reduce(
     (sum, item) => sum + item.precio * item.quantity,
     0
@@ -23,7 +23,7 @@ function Carrito({ carrito = [], limpiarCarrito, usuarioActual }) {
         {carrito.map((item) => (
           <div key={item.id} className="carrito-item">
 
-            {/* ✔ Imagen desde item.imagenes[0].ruta */}
+            {/* Imagen desde item.imagenes[0].ruta */}
             <img
               src={item.imagenes?.[0]?.ruta}
               alt={item.nombre_producto}
@@ -62,4 +62,5 @@ function Carrito({ carrito = [], limpiarCarrito, usuarioActual }) {
 }
 
 export default Carrito;
+
 
