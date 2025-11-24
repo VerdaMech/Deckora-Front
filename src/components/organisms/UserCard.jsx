@@ -13,7 +13,7 @@ function UserCard({ user }) {
         <CardBody
           title={`${user.nombre} ${user.apellido}`}
           run={`RUN: ${user.run}`}
-          phoneNumber={`📞 ${user.numero_telefono}`}
+          phoneNumber={` ${user.numero_telefono}`}
         />
 
         <div className="text-center text-muted mb-2">
