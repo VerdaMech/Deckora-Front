@@ -8,21 +8,24 @@ import { useNavigate } from 'react-router-dom';
 function ProductCard({ product }) {
   const navigate = useNavigate();
 
+  // Imagen principal del backend
+  const imagenPrincipal = product.imagenes?.[0]?.ruta ?? "/placeholder.png";
+
   return (
     <Card style={{ width: '18rem' }} className="m-2">
-      {product.image && (
-        <Image
-          src={product.image}
-          alt={product.name}
-          className="card-img-top"
-        />
-      )}
+      <Image
+        src={imagenPrincipal}
+        alt={product.nombre_producto}
+        className="card-img-top"
+      />
+
       <Card.Body>
         <CardBody
-          title={product.name}
-          section={product.section} 
-          price={product.price}
+          title={product.nombre_producto}
+          section={product.categorias?.[0]?.categoria?.descripcion || ""}
+          price={product.precio}
         />
+
         <Button
           variant="primary"
           onClick={() => navigate(`/productos/${product.id}`)}

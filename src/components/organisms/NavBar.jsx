@@ -3,9 +3,10 @@ import { Navbar, Nav, Container } from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import logo from '../../../public/fotoPerfil/perfil.webp';
 
-
 function NavBar({ usuarioActual, onLogout }) {
-  const esAdmin = usuarioActual?.tipoUsuario === 2;
+
+  // ✔ CORRECCIÓN AQUÍ
+  const esAdmin = usuarioActual?.tipoUsuario?.id === 2;
 
   return (
     <Navbar className="navbar-custom" variant="dark" expand="lg">
@@ -20,9 +21,8 @@ function NavBar({ usuarioActual, onLogout }) {
           <Nav className="me-auto gap-3 navbar-links">
             <NavLink to="/" end>Home</NavLink>
             <NavLink to="/productos">Productos</NavLink>
-            <NavLink to="/noticias">Accesorios</NavLink>
+            <NavLink to="/accesorios">Accesorios</NavLink>
             <NavLink to="/carrito">Carrito</NavLink>
-
 
             {esAdmin && (
               <>
@@ -62,5 +62,4 @@ function NavBar({ usuarioActual, onLogout }) {
 }
 
 export default NavBar;
-
 

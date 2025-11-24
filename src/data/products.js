@@ -1,4 +1,4 @@
-const products = [
+/* const products = [
   {
     id: 1,
     name: 'Pikachu',
@@ -51,3 +51,4 @@ const products = [
 ];
 
 export default products;
+ */

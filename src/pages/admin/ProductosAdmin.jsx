@@ -12,13 +12,32 @@ function ProductosAdmin({ products, setProducts }) {
     navigate(`/admin/productos/${product.id}/editar`);
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     const confirmar = window.confirm(
-      '¿Seguro que quieres eliminar este producto?'
+      "¿Seguro que quieres eliminar este producto?"
     );
     if (!confirmar) return;
 
-    setProducts((prev) => prev.filter((p) => p.id !== id));
+    try {
+      const response = await fetch(
+        `https://deckrora-api.onrender.com/api/v2/productos/${id}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Error al eliminar producto");
+      }
+
+      setProducts((prev) => prev.filter((p) => p.id !== id));
+
+      alert("Producto eliminado con éxito.");
+
+    } catch (error) {
+      console.error("Error al eliminar producto:", error);
+      alert("No se pudo eliminar el producto. Revisa el backend.");
+    }
   };
 
   return (

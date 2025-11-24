@@ -1,4 +1,4 @@
-const noticias = [
+/* const accesorios = [
   {
     id: 1,
     section: 'Protector ',
@@ -15,4 +15,5 @@ const noticias = [
   }
 ];
 
-export default noticias;
+export default accesorios;
+ */

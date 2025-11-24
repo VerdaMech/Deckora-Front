@@ -2,36 +2,50 @@ import React, { useState } from 'react';
 import { Container, Form, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Button from '../components/atoms/Button';
-import '../styles/pages/contacto.css'; 
+import '../styles/pages/contacto.css';
 
-function Login({ users, setUsuarioActual }) {
+function Login({ setUsuarioActual }) {   // ❌ REMOVEMOS "users"
   const [correo, setCorreo] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  // ✅ NUEVO handleLogin usando el backend real
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError("");
 
-    const usuarioEncontrado = users.find(
-      (u) => u.correo === correo && u.contrasenia === contrasenia
-    );
+    try {
+      const response = await fetch(
+        "https://deckrora-api.onrender.com/api/v2/usuarios/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ correo, contrasenia }),
+        }
+      );
 
-    if (!usuarioEncontrado) {
-      setError('Correo o contraseña incorrectos.');
-      return;
-    }
+      if (!response.ok) {
+        setError("Correo o contraseña incorrectos.");
+        return;
+      }
 
-    setError('');
+      const usuarioEncontrado = await response.json();
 
-    setUsuarioActual(usuarioEncontrado);
-    localStorage.setItem('usuarioActual', JSON.stringify(usuarioEncontrado));
+      // Guardamos usuario en estado y localStorage
+      setUsuarioActual(usuarioEncontrado);
+      localStorage.setItem("usuarioActual", JSON.stringify(usuarioEncontrado));
 
-    // esto es por si el usuario es Admin lo mande al home del admin 
-    if (usuarioEncontrado.tipoUsuario === 2) {
-      navigate('/admin/home');
-    } else {
-      navigate('/');
+      // 🟦 Redirección según tipo usuario (corregido)
+      if (usuarioEncontrado.tipoUsuario?.id === 2) {
+        navigate('/admin/home');
+      } else {
+        navigate('/');
+      }
+
+    } catch (err) {
+      console.error(err);
+      setError("Error de conexión con el servidor.");
     }
   };
 
@@ -39,6 +53,7 @@ function Login({ users, setUsuarioActual }) {
     <div className="contact-page">
       <Container className="contacto-container">
         <h1 className="contacto-title">Iniciar sesión</h1>
+
         {error && (
           <Alert variant="danger" className="mt-2">
             {error}
@@ -56,6 +71,7 @@ function Login({ users, setUsuarioActual }) {
               required
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="contrasenia">
             <Form.Label>Contraseña</Form.Label>
             <Form.Control
@@ -66,6 +82,7 @@ function Login({ users, setUsuarioActual }) {
               required
             />
           </Form.Group>
+
           <Button
             type="submit"
             variant="primary"

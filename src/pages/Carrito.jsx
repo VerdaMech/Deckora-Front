@@ -3,15 +3,16 @@ import Button from '../components/atoms/Button';
 import '../styles/pages/Carrito.css';
 import { pagar } from '../data/pago';
 
-function Carrito({ carrito = [], limpiarCarrito }) {     
+function Carrito({ carrito = [], limpiarCarrito, usuarioActual }) {
 
+  // ✔ TOTAL usando precio real del backend
   const total = carrito.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + item.precio * item.quantity,
     0
   );
 
   const PagarCarrito = () => {
-    pagar(carrito, limpiarCarrito);     
+    pagar(carrito, usuarioActual, limpiarCarrito);
   };
 
   return (
@@ -21,25 +22,25 @@ function Carrito({ carrito = [], limpiarCarrito }) {
       <div className="carrito-lista">
         {carrito.map((item) => (
           <div key={item.id} className="carrito-item">
+
+            {/* ✔ Imagen desde item.imagenes[0].ruta */}
             <img
-              src={item.image}
-              alt={item.name}
+              src={item.imagenes?.[0]?.ruta}
+              alt={item.nombre_producto}
               className="carrito-item-img"
             />
 
             <div className="carrito-item-info">
               <h3>
-                {item.name}{' '}
-                <span className="carrito-item-qty">
-                  x{item.quantity}
-                </span>
+                {item.nombre_producto}{' '}
+                <span className="carrito-item-qty">x{item.quantity}</span>
               </h3>
-              {item.section && <p>{item.section}</p>}
-              <p>${item.price} c/u</p>
+
+              <p>${item.precio} c/u</p>
             </div>
 
             <div className="carrito-item-subtotal">
-              Total ${item.price * item.quantity}
+              Total ${item.precio * item.quantity}
             </div>
           </div>
         ))}
@@ -51,7 +52,7 @@ function Carrito({ carrito = [], limpiarCarrito }) {
           variant="outline-light"
           type="button"
           className="carrito-pay-btn"
-          onClick={PagarCarrito}   
+          onClick={PagarCarrito}
         >
           Pagar
         </Button>

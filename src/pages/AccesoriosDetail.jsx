@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Card } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import noticias from '../data/noticias';
+import noticias from '../data/accesorios';
 import Text from '../components/atoms/Text';
 import Button from '../components/atoms/Button';
 import Image from '../components/atoms/Image';
