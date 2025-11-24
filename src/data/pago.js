@@ -10,16 +10,16 @@ export const pagar = async (carrito, usuarioActual, onSuccess) => {
       return;
     }
 
-    // 🧮 TOTAL
+    // TOTAL
     const total = carrito.reduce(
       (sum, item) => sum + item.precio * item.quantity,
       0
     );
 
-    // 📅 Fecha formato yyyy-MM-dd
+    // Fecha formato 
     const fecha = new Date().toISOString().slice(0, 10);
 
-    // 🟦 CREAR ORDEN
+    // CREAR ORDEN
     const orden = {
       fecha,
       total,
@@ -47,7 +47,7 @@ export const pagar = async (carrito, usuarioActual, onSuccess) => {
 
     const ordenId = ordenCreada.id;
 
-    // 🟧 AGREGAR PRODUCTOS A LA ORDEN
+    // AGREGAR PRODUCTOS A LA ORDEN
     for (const item of carrito) {
       const detalle = {
         cantidad_producto: item.quantity,
@@ -69,11 +69,11 @@ export const pagar = async (carrito, usuarioActual, onSuccess) => {
       }
     }
 
-    // ✔ Todo salió bien
+    // Todo salió bien
     alert("Compra realizada con éxito. Orden registrada.");
 
     if (typeof onSuccess === "function") {
-      onSuccess(); // ← normalmente limpia el carrito
+      onSuccess(); // normalmente limpia el carrito
     }
 
   } catch (error) {
@@ -81,3 +81,4 @@ export const pagar = async (carrito, usuarioActual, onSuccess) => {
     alert("No se pudo realizar la compra.");
   }
 };
+
