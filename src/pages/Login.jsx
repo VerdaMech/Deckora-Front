@@ -4,13 +4,13 @@ import { useNavigate } from 'react-router-dom';
 import Button from '../components/atoms/Button';
 import '../styles/pages/contacto.css';
 
-function Login({ setUsuarioActual }) {   // ❌ REMOVEMOS "users"
+function Login({ setUsuarioActual }) {   //  REMOVEMOS "users"
   const [correo, setCorreo] = useState('');
   const [contrasenia, setContrasenia] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
 
-  // ✅ NUEVO handleLogin usando el backend real
+  // handleLogin usando el backend real
   const handleLogin = async (e) => {
     e.preventDefault();
     setError("");
@@ -36,7 +36,7 @@ function Login({ setUsuarioActual }) {   // ❌ REMOVEMOS "users"
       setUsuarioActual(usuarioEncontrado);
       localStorage.setItem("usuarioActual", JSON.stringify(usuarioEncontrado));
 
-      // 🟦 Redirección según tipo usuario (corregido)
+      // Redirección según tipo usuario
       if (usuarioEncontrado.tipoUsuario?.id === 2) {
         navigate('/admin/home');
       } else {
