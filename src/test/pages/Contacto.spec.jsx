@@ -41,7 +41,6 @@ describe('Contacto Page', () => {
     render(<Contacto />);
     const button = screen.getByText('Enviar');
     expect(button).toBeTruthy();
-    // tu Button envuelve un BootstrapButton, que agrega 'btn'
     expect(button).toHaveClass('btn');
   });
 });

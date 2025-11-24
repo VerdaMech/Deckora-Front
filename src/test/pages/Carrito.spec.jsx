@@ -4,24 +4,22 @@ import Carrito from '../../pages/Carrito';
 
 
 describe('Carrito Page', () => {
-  const carritoMock = [
-    {
-      id: 1,
-      name: 'Carta 1',
-      section: 'Mitos y Leyendas',
-      price: 1000,
-      quantity: 2,
-      image: '/cartas/carta1.webp',
-    },
-    {
-      id: 2,
-      name: 'Carta 2',
-      section: 'Pokémon',
-      price: 500,
-      quantity: 1,
-      image: '/cartas/carta2.webp',
-    },
-  ];
+const carritoMock = [
+  {
+    id: 1,
+    nombre_producto: 'Carta 1',
+    precio: 1000,
+    quantity: 2,
+    imagenes: [{ ruta: '/cartas/carta1.webp' }],
+  },
+  {
+    id: 2,
+    nombre_producto: 'Carta 2',
+    precio: 500,
+    quantity: 1,
+    imagenes: [{ ruta: '/cartas/carta2.webp' }],
+  },
+];
 
   const limpiarCarritoMock = () => {};
 
