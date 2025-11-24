@@ -9,7 +9,7 @@ function UsuariosAdmin() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // Cargar los usuarios desde backend
+  // Cargar usuarios desde backend
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
@@ -23,12 +23,15 @@ function UsuariosAdmin() {
 
         const data = await res.json();
 
-        // HATEOAS
         const lista = data?._embedded
           ? data._embedded.usuarioList
           : data;
 
-        setUsers(lista);
+        // Filtra usuarios activos (los que NO son tipoUsuario.id = 4)
+        const activos = lista.filter(u => u.tipoUsuario?.id !== 4);
+
+        setUsers(activos);
+
       } catch (error) {
         console.error("Error al cargar usuarios:", error);
       } finally {
@@ -43,6 +46,7 @@ function UsuariosAdmin() {
     navigate(`/admin/usuarios/${user.id}/editar`);
   };
 
+  // Desactivar usuario con PATCH COMPLETO (exacto a Swagger)
   const handleDelete = async (id) => {
     const confirmar = window.confirm(
       "¿Seguro que quieres eliminar este usuario?"
@@ -50,21 +54,57 @@ function UsuariosAdmin() {
     if (!confirmar) return;
 
     try {
+      // Obtener el usuario completo
+      const userRes = await fetch(
+        `https://deckrora-api.onrender.com/api/v2/usuarios/${id}`
+      );
+
+      if (!userRes.ok) throw new Error("No se pudo obtener el usuario");
+
+      const userData = await userRes.json();
+
+      // Construir JSON EXACTO como Swagger:
+      const updatedUser = {
+        id: userData.id,
+        run: userData.run,
+        nombre: userData.nombre,
+        apellido: userData.apellido,
+        correo: userData.correo,
+        direccion: userData.direccion,
+        numero_telefono: userData.numero_telefono,
+
+        tipoUsuario: {
+          id: 4,
+          descripcion: userData.tipoUsuario.descripcion
+        }
+      };
+
+      // PATCH exacto
       const res = await fetch(
         `https://deckrora-api.onrender.com/api/v2/usuarios/${id}`,
-        { method: "DELETE" }
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(updatedUser)
+        }
       );
 
       if (!res.ok) {
-        throw new Error("No se pudo eliminar el usuario");
+        const text = await res.text();
+        throw new Error("No se pudo desactivar el usuario");
       }
 
-      setUsers((prev) => prev.filter((u) => u.id !== id));
-      alert("Usuario eliminado con éxito");
+
+      // Eliminar de la vista
+      setUsers(prev => prev.filter(u => u.id !== id));
+
+      alert("Usuario desactivado con éxito");
 
     } catch (error) {
-      console.error("Error eliminando usuario:", error);
-      alert("No se pudo eliminar el usuario");
+      console.error("Error desactivando usuario:", error);
+      alert("No se pudo desactivar el usuario");
     }
   };
 
@@ -113,3 +153,4 @@ function UsuariosAdmin() {
 }
 
 export default UsuariosAdmin;
+
