@@ -9,7 +9,7 @@ function UsuariosAdmin() {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  // 🔵 Cargar usuarios desde backend
+  // Cargar los usuarios desde backend
   useEffect(() => {
     const fetchUsuarios = async () => {
       try {
