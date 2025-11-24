@@ -31,7 +31,7 @@ function Products({ products, setProducts }) {
           ? data._embedded.productoList
           : data;
 
-        // 🟦 FILTRAR: excluir categoria 4 (Accesorios)
+        // FILTRAR: excluir categoria 4 (Accesorios)
         const productosFiltrados = lista.filter(
           (p) => !p.categorias?.some(c => c.categoria?.id === 4)
         );
