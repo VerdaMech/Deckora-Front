@@ -12,7 +12,7 @@ function ProductDetail({ addToCart }) {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  // 🟦 Cargar producto desde backend
+  // Carga los productos desde el backend
   useEffect(() => {
     const fetchProducto = async () => {
       try {
@@ -37,12 +37,12 @@ function ProductDetail({ addToCart }) {
     fetchProducto();
   }, [id]);
 
-  // 🕒 Mostrar cargando
+  // Mostrar cargando
   if (loading) {
     return <Container><h2>Cargando producto...</h2></Container>;
   }
 
-  // ❌ Producto no encontrado
+  // Producto no encontrado
   if (!product) {
     return (
       <div className="product-detail-page">
@@ -54,7 +54,7 @@ function ProductDetail({ addToCart }) {
     );
   }
 
-  // 🟩 Imagen principal (primera)
+  // Imagen principal 
   const imagenPrincipal = product.imagenes?.[0]?.ruta ?? "/placeholder.png";
 
   return (
