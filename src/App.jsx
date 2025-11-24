@@ -22,10 +22,10 @@ import UsuariosAdmin from './pages/admin/UsuariosAdmin';
 function App() {
   const navigate = useNavigate();
 
-  // 🟦 PRODUCTS — solo en memoria
+  // PRODUCTS — solo en memoria
   const [products, setProducts] = useState([]);
 
-  // 🛒 CARRITO — persistente en localStorage
+  //  CARRITO — persistente en localStorage
   const [carrito, setCarrito] = useState(() => {
     const stored = localStorage.getItem('carrito');
     return stored ? JSON.parse(stored) : [];
@@ -53,7 +53,7 @@ function App() {
     });
   };
 
-  // 👤 USUARIO ACTUAL — persistente en localStorage
+  // USUARIO ACTUAL — persistente en localStorage
   const [usuarioActual, setUsuarioActual] = useState(() => {
     const storedUser = localStorage.getItem('usuarioActual');
     return storedUser ? JSON.parse(storedUser) : null;
