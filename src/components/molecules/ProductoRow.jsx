@@ -2,7 +2,7 @@ import React from "react";
 import Image from "../atoms/Image";
 import Button from "../atoms/Button";
 import Text from "../atoms/Text";
-import "../../styles/organisms/molecules/ProductRow.css";
+import "../../styles/components/organisms/ProductRow.css";
 
 function ProductoRow({ producto, onEdit, onDelete }) {
   const imgUrl = producto.imagenes?.[0]?.ruta || "https://via.placeholder.com/60";
