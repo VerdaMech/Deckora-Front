@@ -92,6 +92,7 @@ function ProductosAdmin({ products, setProducts }) {
               variant="secondary"
               type="button"
               onClick={""}
+              className="crear-producto-btn"
             >
               Crear Producto
             </Button>
