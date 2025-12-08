@@ -1,6 +1,6 @@
 import React from "react";
 import ProductoEnOrdenRow from "../molecules/ProductoEnOrdenRow";
-import "../../styles/orderRow.css";
+import "../../styles/organisms/ordenRow.css";
 
 function OrdenRow({ orden }) {
   return (
