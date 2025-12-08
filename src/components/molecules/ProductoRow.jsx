@@ -9,9 +9,13 @@ function ProductoRow({ producto, onEdit, onDelete }) {
     <div className="product-row">
       
       <div className="product-row-thumb">
-        <Image src={producto.imagens} alt={producto.nombre_producto} width={50} height={50} />
+        <Image 
+            src={producto.imagens?.url || ""} 
+            alt={producto.nombre_producto} 
+            width={50} 
+            height={50} 
+            />
       </div>
-
       <Text className="product-row-name">{producto.nombre_producto}</Text>
 
       <div className="product-row-actions">

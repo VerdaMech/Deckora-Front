@@ -95,7 +95,7 @@ function ProductosAdmin({ products, setProducts }) {
             className="mb-3"
           />
 
-          <div className="projects-row">
+          <div className="product-list-column">
 
             {productosFiltrados.map((product) => (
               <ProductoRow
