@@ -13,6 +13,7 @@ import EditarProductosAdmin from './pages/admin/EditarProductosAdmin';
 import Carrito from './pages/Carrito';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
+import MisCompras from './pages/MisCompras';
 
 import adminHome from './data/adminHome';
 import '../src/styles/global.css';
@@ -127,6 +128,7 @@ function App() {
             }
           />
           <Route path="/registro" element={<Registro/>}/>
+          <Route path="/misCompras" element={<MisCompras/>}/>
 
           {/* ADMIN */}
           <Route path="/admin/home" element={<HomeAdmin adminHome={adminHome} />} />

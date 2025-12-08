@@ -23,6 +23,7 @@ function NavBar({ usuarioActual, onLogout }) {
             <NavLink to="/productos">Productos</NavLink>
             <NavLink to="/accesorios">Accesorios</NavLink>
             <NavLink to="/carrito">Carrito</NavLink>
+            <NavLink to="/misCompras">Mis Compras</NavLink>
             
 
             {esAdmin && (
