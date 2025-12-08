@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link } from 'react-router-dom';
-import '../../styles/organisms/footer.css';
+import '../../styles/components/organisms/footer.css';
 import logo from '../../../public/fotoPerfil/perfil.webp';
 
 function Footer() {
