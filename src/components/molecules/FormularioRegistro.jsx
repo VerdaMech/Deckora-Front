@@ -129,19 +129,18 @@ function FormularioRegistro({
   );
 
   return (
+  <div className="edit-user-container">
     <form onSubmit={handleSubmit}>
 
-      {/* CAMPOS COMUNES */}
       {renderInput("run", "text", "RUN")}
       {renderInput("nombre", "text", "Nombre")}
       {renderInput("apellido", "text", "Apellido")}
       {renderInput("correo", "email", "Correo")}
 
-      {/* SOLO EN REGISTRO → Confirmación correo */}
       {modo === "registro" && (
         renderInput("confirmarCorreo", "email", "Confirmar correo")
       )}
-      
+
       {renderInput(
         "contrasenia",
         "password",
@@ -159,6 +158,7 @@ function FormularioRegistro({
         {modo === "registro" ? "Registrarse" : "Guardar cambios"}
       </Button>
     </form>
+  </div>
   );
 }
 

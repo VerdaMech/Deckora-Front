@@ -36,22 +36,49 @@
   margin-top: 12px;
 }
 
+/* Contenedor general */
+.edit-user-container {
+  max-width: 700px;
+  margin: 40px auto;
+  background: #1e1e1e;        /* gris oscuro elegante */
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.4);
+}
+
+/* Formulario */
+.edit-user-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Wrapper de cada campo */
 .edit-field-wrapper {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
 
+/* Label alineado a la izquierda */
 .edit-label {
   color: white;
+  font-size: 0.95rem;
   margin-bottom: 6px;
-  font-size: 1rem;
+  text-align: left;
   font-weight: 500;
 }
 
+/* Input dentro del modo edición */
 .edit-input {
-  padding: 10px;
+  padding: 12px;
   border-radius: 6px;
   border: 1px solid #ccc;
+  background: #fff;
   font-size: 1rem;
+}
+
+/* Botón centrado */
+.edit-user-form button {
+  display: block;
+  margin: 10px auto 0 auto;
 }
