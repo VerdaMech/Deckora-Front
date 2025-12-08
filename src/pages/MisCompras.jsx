@@ -27,7 +27,10 @@ function MisCompras() {
         if (!resp.ok) throw new Error("Error al cargar compras");
 
         const data = await resp.json();
-        setOrdenes(data);
+        const listaOrdenes = data?._embedded?.ordenList || [];
+
+        setOrdenes(listaOrdenes);
+
 
       } catch (error) {
         console.error("Error cargando compras:", error);
