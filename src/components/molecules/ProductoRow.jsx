@@ -4,7 +4,7 @@ import Button from "../atoms/Button";
 import Text from "../atoms/Text";
 import "../../styles/organisms/molecules/ProductRow.css"
 
-function ProductRow({ producto, onEdit, onDelete }) {
+function ProductoRow({ producto, onEdit, onDelete }) {
   return (
     <div className="product-row">
       
@@ -28,4 +28,4 @@ function ProductRow({ producto, onEdit, onDelete }) {
   );
 }
 
-export default ProductRow;
+export default ProductoRow;

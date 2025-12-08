@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/atoms/Button';
 import Buscador from '../../components/atoms/Buscador';
-import ProductRow from '../../components/molecules/ProductoRow';
+import ProductoRow from '../../components/molecules/ProductoRow';
 import '../../styles/pages/proyectos.css';
 import '../../styles/admin.css';
 
@@ -11,7 +11,7 @@ function ProductosAdmin({ products, setProducts }) {
   const [searchTerm, setSearchTerm] = useState("");
 
 
-  const productosFiltrados = productos.filter(p =>
+  const productosFiltrados = products.filter(p =>
     p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -98,7 +98,7 @@ function ProductosAdmin({ products, setProducts }) {
           <div className="projects-row">
 
             {productosFiltrados.map((product) => (
-              <ProductRow
+              <ProductoRow
                 key={product.id}
                 producto={product}
                 onEdit={handleEdit}
