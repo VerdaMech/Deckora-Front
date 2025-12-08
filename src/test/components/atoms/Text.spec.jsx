@@ -9,12 +9,12 @@ describe('Text Atom', () => {
     expect(el.tagName).toBe('P');
   });
 
-/*   it('renderiza el texto cuando variant="title"', () => {
+  it('renderiza el texto cuando variant="title"', () => {
     render(<Text variant="title">Título</Text>);
     const el = screen.getByText('Título');
-    expect(el).toBeTruthy();
+    expect(el.tagName).toBe('H1'); 
   });
- */
+ 
   it('renderiza el texto cuando variant="subtitle"', () => {
     render(<Text variant="subtitle">Subtítulo</Text>);
     const el = screen.getByText('Subtítulo');
@@ -27,3 +27,4 @@ describe('Text Atom', () => {
     expect(el).toHaveClass('extra-clase');
   });
 });
+
