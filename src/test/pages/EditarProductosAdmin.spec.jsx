@@ -7,10 +7,15 @@ describe('EditarProductosAdmin Page', () => {
   const mockProducts = [
     {
       id: 1,
-      name: 'Carta Test',
-      section: 'Mitos y Leyendas',
-      description: 'Descripción original',
-      price: 999,
+      nombre_producto: 'Carta Test',
+      categorias: [
+        {
+          categoria: {
+            descripcion: 'Mitos y Leyendas',
+          },
+        },
+      ],
+      precio: 999,
     },
   ];
 
@@ -43,13 +48,13 @@ describe('EditarProductosAdmin Page', () => {
     setup();
 
     const nombreInput = screen.getByLabelText('Nombre');
-    const categoriaInput = screen.getByLabelText('Categoria');
-    const descripcionInput = screen.getByLabelText('Descripción');
+    const categoriaInput = screen.getByLabelText(/Categor/i); 
     const precioInput = screen.getByLabelText('Precio');
 
     expect(nombreInput.value).toBe('Carta Test');
     expect(categoriaInput.value).toBe('Mitos y Leyendas');
-    expect(descripcionInput.value).toBe('Descripción original');
-    expect(precioInput.value).toBe('999');
+    expect(precioInput.value).toBe('999'); 
   });
 });
+
+
