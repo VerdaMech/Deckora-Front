@@ -12,11 +12,10 @@
   margin-right: auto;
 }
 
-/* Miniatura */
-.product-row-thumb img {
-  width: 60px;       
-  height: 60px;
-  object-fit: cover; 
+.product-row .product-row-thumb img {
+  width: 60px !important;
+  height: 60px !important;
+  object-fit: cover !important;
   border-radius: 6px;
 }
 
