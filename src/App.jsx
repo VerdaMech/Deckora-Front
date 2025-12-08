@@ -147,7 +147,7 @@ function App() {
           />
           <Route 
             path="/admin/usuarios/:id/editar" 
-            element={<EditarUsuarioAdmin />}
+            element={<EditarUsuariosAdmin />}
           />
 
         </Routes>

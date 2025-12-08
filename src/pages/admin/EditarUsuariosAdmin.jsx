@@ -6,7 +6,7 @@ import "../../styles/admin.css";
 import "../../styles/pages/contacto.css";
 import FormularioRegistro from "../../components/molecules/FormularioRegistro";
 
-function EditarUsuarioAdmin() {
+function EditarUsuariosAdmin() {
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -118,4 +118,4 @@ function EditarUsuarioAdmin() {
   );
 }
 
-export default EditarUsuarioAdmin;
+export default EditarUsuariosAdmin;
