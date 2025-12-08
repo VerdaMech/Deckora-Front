@@ -43,7 +43,7 @@ function MisCompras() {
   }, [usuarioId]);
 
   return (
-    <div className="fondo-admin">
+    
       <div className="products-page">
         <div className="projects-wrapper">
 
@@ -80,7 +80,7 @@ function MisCompras() {
 
         </div>
       </div>
-    </div>
+
   );
 }
 
