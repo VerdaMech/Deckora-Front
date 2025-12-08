@@ -17,7 +17,7 @@ import MisCompras from './pages/MisCompras';
 
 import adminHome from './data/adminHome';
 import '../src/styles/global.css';
-import '../src/styles/organisms/footer.css';
+import '../src/styles/components/organisms/footer.css';
 import HomeAdmin from './pages/admin/HomeAdmin';
 import UsuariosAdmin from './pages/admin/UsuariosAdmin';
 
