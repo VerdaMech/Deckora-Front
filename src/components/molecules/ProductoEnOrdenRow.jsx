@@ -1,8 +1,5 @@
 import React from "react";
-function ProductoEnOrdenRow({ productoOrden }) {
-
-  const producto = productoOrden.producto;
-
+function ProductoEnOrdenRow({ producto, cantidad }) {
   const imgUrl =
     producto.imagenes?.[0]?.ruta ||
     "https://via.placeholder.com/60";
@@ -14,7 +11,7 @@ function ProductoEnOrdenRow({ productoOrden }) {
       <div className="producto-info">
         <p className="producto-nombre">{producto.nombre_producto}</p>
         <p className="producto-precio">${producto.precio}</p>
-        <p className="producto-cantidad">Cantidad: {productoOrden.cantidad_producto}</p>
+        <p className="producto-cantidad">Cantidad: {cantidad}</p>
       </div>
     </div>
   );

@@ -17,7 +17,11 @@ function OrdenRow({ orden }) {
 
         <div className="orden-productos">
             {orden.productosOrdenes.map((prodOrden, i) => (
-                <ProductoEnOrdenRow key={i} productoOrden={prodOrden} />
+                <ProductoEnOrdenRow
+                    key={i}
+                    producto={item.producto}            
+                    cantidad={item.cantidad_producto}   
+                />
             ))}
         </div>
     </div>
