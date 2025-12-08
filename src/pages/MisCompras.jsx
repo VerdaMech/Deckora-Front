@@ -21,7 +21,7 @@ function MisCompras() {
 
       try {
         const resp = await fetch(
-          `https://deckrora-api.onrender.com/api/v2/ordenes/usuario/${usuarioId}`
+          `https://deckrora-api.onrender.com/api/v2/ordenes/por-usuario/${usuarioId}`
         );
 
         if (!resp.ok) throw new Error("Error al cargar compras");
