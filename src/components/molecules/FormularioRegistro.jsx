@@ -4,199 +4,177 @@ import Button from '../atoms/Button';
 import Text from '../atoms/Text';
 
 
-function FormularioRegistro({ registrarUsuario }) {
+function FormularioRegistro({
+  registrarUsuario,     // función POST para registro
+  actualizarUsuario,    // función PATCH para edición
+  modo = "registro",    // "registro" | "editar"
+  usuarioInicial = {}
+}) {
 
   const [values, setValues] = useState({
-    run: "",
-    nombre: "",
-    apellido: "",
-    correo: "",
-    confirmarCorreo: "",
+    run: usuarioInicial.run || "",
+    nombre: usuarioInicial.nombre || "",
+    apellido: usuarioInicial.apellido || "",
+    correo: usuarioInicial.correo || "",
+
+    // Solo se usan en registro
+    confirmarCorreo: usuarioInicial.correo || "",
+    
+    // Contraseña solo obligatoria en registro
     contrasenia: "",
     confirmarContrasenia: "",
-    direccion: "",
-    numero_telefono: ""
+
+    direccion: usuarioInicial.direccion || "",
+    numero_telefono: usuarioInicial.numero_telefono || ""
   });
 
   const [errors, setErrors] = useState({});
 
-  // Validaciones actualizadas para usar valores actuales
+  // VALIDACIONES ADAPTADAS POR MODO
   const validaciones = {
-    run: (v) => {
-      if (!v) return "El RUN es obligatorio";
-      if (v.length > 13) return "El RUN no debe superar 13 caracteres";
-      return "";
-    },
-    nombre: (v) => {
-      if (!v) return "El nombre es obligatorio";
-      if (v.length > 50) return "El nombre no debe superar 50 caracteres";
-      return "";
-    },
-    apellido: (v) => {
-      if (!v) return "El apellido es obligatorio";
-      if (v.length > 50) return "El apellido no debe superar 50 caracteres";
-      return "";
-    },
+    run: (v) => (!v ? "El RUN es obligatorio" : ""),
+    nombre: (v) => (!v ? "El nombre es obligatorio" : ""),
+    apellido: (v) => (!v ? "El apellido es obligatorio" : ""),
+
     correo: (v) => {
       if (!v) return "El correo es obligatorio";
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v)) return "Correo inválido";
-      if (v.length > 50) return "El correo no debe superar 50 caracteres";
       return "";
     },
-    confirmarCorreo: (v, valuesActuales) => {
-      if (!v) return "Debes confirmar el correo";
-      if (v !== valuesActuales.correo) return "Los correos no coinciden";
-      return "";
-    },
+
+    confirmarCorreo: (v) =>
+      modo === "registro" && v !== values.correo
+        ? "Los correos no coinciden"
+        : "",
+
     contrasenia: (v) => {
-      if (!v) return "La contraseña es obligatoria";
-      if (v.length < 6) return "La contraseña debe tener al menos 6 caracteres";
-      if (v.length > 20) return "La contraseña no debe superar 20 caracteres";
+      if (modo === "registro") {
+        if (!v) return "La contraseña es obligatoria";
+        if (v.length < 6) return "Debe tener mínimo 6 caracteres";
+      }
+      // En modo editar: contraseña opcional
       return "";
     },
-    confirmarContrasenia: (v, valuesActuales) => {
-      if (!v) return "Debes confirmar la contraseña";
-      if (v !== valuesActuales.contrasenia) return "Las contraseñas no coinciden";
-      return "";
-    },
-    direccion: (v) => {
-      if (!v) return "La dirección es obligatoria";
-      return "";
-    },
-    numero_telefono: (v) => {
-      if (!v) return "El número de teléfono es obligatorio";
-      if (!/^\d{9}$/.test(v)) return "El número debe tener 9 dígitos";
-      return "";
-    }
+
+    confirmarContrasenia: (v) =>
+      modo === "registro" && v !== values.contrasenia
+        ? "Las contraseñas no coinciden"
+        : "",
+
+    direccion: (v) => (!v ? "La dirección es obligatoria" : ""),
+    numero_telefono: (v) =>
+      !/^\d{9}$/.test(v) ? "Debe tener 9 dígitos" : ""
   };
 
-  // Manejo de cambios con validación correcta
   const handleChange = (field, value) => {
     const newValues = { ...values, [field]: value };
     setValues(newValues);
 
-    // Validación del campo en edición
     const error = validaciones[field](value, newValues);
-    setErrors(prev => ({ ...prev, [field]: error }));
-
-    // Revalidación automática de confirmaciones
-    if (field === "correo" || field === "confirmarCorreo") {
-      const err = validaciones.confirmarCorreo(newValues.confirmarCorreo, newValues);
-      setErrors(prev => ({ ...prev, confirmarCorreo: err }));
-    }
-
-    if (field === "contrasenia" || field === "confirmarContrasenia") {
-      const err = validaciones.confirmarContrasenia(newValues.confirmarContrasenia, newValues);
-      setErrors(prev => ({ ...prev, confirmarContrasenia: err }));
-    }
+    setErrors((prev) => ({ ...prev, [field]: error }));
   };
 
-  // Validación completa
   const validarTodo = () => {
     const newErrors = {};
 
-    Object.keys(values).forEach((field) => {
-      newErrors[field] = validaciones[field](values[field], values);
+    Object.keys(values).forEach((campo) => {
+      newErrors[campo] = validaciones[campo](values[campo], values);
     });
 
     setErrors(newErrors);
-
-    return Object.values(newErrors).every(e => e === "");
+    return Object.values(newErrors).every((e) => e === "");
   };
 
-  // Submit del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
-
     if (!validarTodo()) return;
 
-    const usuarioData = {
+    const jsonUsuario = {
       run: values.run,
       nombre: values.nombre,
       apellido: values.apellido,
       correo: values.correo,
-      contrasenia: values.contrasenia,
       direccion: values.direccion,
       numero_telefono: values.numero_telefono
     };
 
-    registrarUsuario(usuarioData);
+    // ✔ Contraseña: solo enviar si fue escrita
+    if (values.contrasenia.trim() !== "") {
+      jsonUsuario.contrasenia = values.contrasenia;
+    }
+
+    if (modo === "registro") {
+      registrarUsuario(jsonUsuario);
+    } else {
+      actualizarUsuario(jsonUsuario);
+    }
   };
 
   return (
     <form onSubmit={handleSubmit}>
 
-      <Input
-        placeholder="RUN"
+      {/* CAMPOS COMUNES */}
+      <Input placeholder="RUN"
         value={values.run}
         onChange={(e) => handleChange("run", e.target.value)}
       />
-      {errors.run && <Text className="error">{errors.run}</Text>}
 
-      <Input
-        placeholder="Nombre"
+      <Input placeholder="Nombre"
         value={values.nombre}
         onChange={(e) => handleChange("nombre", e.target.value)}
       />
-      {errors.nombre && <Text className="error">{errors.nombre}</Text>}
 
-      <Input
-        placeholder="Apellido"
+      <Input placeholder="Apellido"
         value={values.apellido}
         onChange={(e) => handleChange("apellido", e.target.value)}
       />
-      {errors.apellido && <Text className="error">{errors.apellido}</Text>}
 
-      <Input
-        type="email"
-        placeholder="Correo"
+      <Input type="email" placeholder="Correo"
         value={values.correo}
         onChange={(e) => handleChange("correo", e.target.value)}
       />
-      {errors.correo && <Text className="error">{errors.correo}</Text>}
 
-      <Input
-        type="email"
-        placeholder="Confirmar correo"
-        value={values.confirmarCorreo}
-        onChange={(e) => handleChange("confirmarCorreo", e.target.value)}
-      />
-      {errors.confirmarCorreo && <Text className="error">{errors.confirmarCorreo}</Text>}
+      {/* SOLO EN REGISTRO → Confirmación correo */}
+      {modo === "registro" && (
+        <Input
+          type="email"
+          placeholder="Confirmar correo"
+          value={values.confirmarCorreo}
+          onChange={(e) => handleChange("confirmarCorreo", e.target.value)}
+        />
+      )}
 
+      {/* CONTRASEÑA → requerida en registro, opcional en edición */}
       <Input
         type="password"
-        placeholder="Contraseña"
+        placeholder={modo === "registro" ? "Contraseña" : "Nueva contraseña (opcional)"}
         value={values.contrasenia}
         onChange={(e) => handleChange("contrasenia", e.target.value)}
       />
-      {errors.contrasenia && <Text className="error">{errors.contrasenia}</Text>}
 
-      <Input
-        type="password"
-        placeholder="Confirmar contraseña"
-        value={values.confirmarContrasenia}
-        onChange={(e) => handleChange("confirmarContrasenia", e.target.value)}
-      />
-      {errors.confirmarContrasenia && <Text className="error">{errors.confirmarContrasenia}</Text>}
+      {/* SOLO EN REGISTRO → Confirmación contraseña */}
+      {modo === "registro" && (
+        <Input
+          type="password"
+          placeholder="Confirmar contraseña"
+          value={values.confirmarContrasenia}
+          onChange={(e) => handleChange("confirmarContrasenia", e.target.value)}
+        />
+      )}
 
-      <Input
-        placeholder="Dirección"
+      <Input placeholder="Dirección"
         value={values.direccion}
         onChange={(e) => handleChange("direccion", e.target.value)}
       />
-      {errors.direccion && <Text className="error">{errors.direccion}</Text>}
 
-      <Input
-        placeholder="Número telefónico (9 dígitos)"
+      <Input placeholder="Número telefónico"
         value={values.numero_telefono}
         onChange={(e) => handleChange("numero_telefono", e.target.value)}
       />
-      {errors.numero_telefono && <Text className="error">{errors.numero_telefono}</Text>}
 
       <Button type="submit" className="mt-3" variant="primary">
-        Registrarse
+        {modo === "registro" ? "Registrarse" : "Guardar cambios"}
       </Button>
-
     </form>
   );
 }
