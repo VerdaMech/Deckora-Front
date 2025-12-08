@@ -1,0 +1,56 @@
+/* Fondo centrado estilo registro */
+.registro-wrapper {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Caja blanca translúcida */
+.registro-box {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  padding: 40px 50px;
+  border-radius: 20px;
+  width: 480px;            /* ← AQUI LA ANCHURA FINAL 😎 */
+  max-width: 90%;
+  text-align: center;
+}
+
+/* Títulos */
+.registro-title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+.registro-subtitle {
+  font-size: 0.95rem;
+  margin-bottom: 25px;
+  opacity: 0.9;
+}
+
+/* Inputs dentro del formulario */
+.registro-box input {
+  width: 100%;
+  padding: 14px 18px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+/* Errores */
+.registro-box .error {
+  color: red;
+  margin-top: -10px;
+  margin-bottom: 10px;
+  font-size: 0.85rem;
+}
+
+/* Botón */
+.registro-box button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  margin-top: 10px;
+}

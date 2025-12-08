@@ -1,7 +1,7 @@
 import React from 'react';
 import Text from '../components/atoms/Text';
 import FormularioRegistro from '../components/molecules/FormularioRegistro';
-import '../styles/pages/contacto.css';
+import '../styles/pages/registro.css';
 
 function Registro() {
 
@@ -39,17 +39,13 @@ function Registro() {
   };
 
   return (
-    <div className="contact-page registro-pagina">
-        <div className="contacto-container registro">
+    <div className="registro-wrapper">
+      <div className="registro-box">
+        <h1 className="registro-title">Crear cuenta</h1>
+        <p className="registro-subtitle">Completa tus datos para continuar</p>
 
-            <h1 className="contacto-title">Crear cuenta</h1>
-            <p className="contacto-subtitle">Completa tus datos para continuar</p>
-
-            <div className="contacto-form registro">
-            <FormularioRegistro registrarUsuario={handleRegistro} />
-            </div>
-
-        </div>
+        <FormularioRegistro modo="registro" />
+      </div>
     </div>
   );
 }
