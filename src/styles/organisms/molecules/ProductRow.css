@@ -34,8 +34,8 @@
 }
 
 
-.search-bar-admin .mb-3{
-  width: 80%;
+.search-bar-admin {
+  width: 80% !important;
   margin-left: auto;
   margin-right: auto;
   display: block;
