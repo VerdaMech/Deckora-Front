@@ -11,8 +11,7 @@ function Registro() {
     const usuarioCompleto = {
       ...usuarioData,
       tipoUsuario: {
-        id: 2  // <-- CAMBIAR por el ID real del tipo CLIENTE
-      }
+        id: 3}
     };
 
     try {

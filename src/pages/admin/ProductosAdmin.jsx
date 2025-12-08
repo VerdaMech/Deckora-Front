@@ -1,11 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import ProductCard from '../../components/organisms/ProductCard';
 import Button from '../../components/atoms/Button';
+import Buscador from '../../components/atoms/Buscador';
+import ProductRow from '../../components/molecules/ProductoRow';
 import '../../styles/pages/proyectos.css';
 import '../../styles/admin.css';
 
 function ProductosAdmin({ products, setProducts }) {
+
+  const [searchTerm, setSearchTerm] = useState("");
+
+
+  const productosFiltrados = productos.filter(p =>
+    p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  
+
   const navigate = useNavigate();
 
   // Cargar productos si NO existen en App.jsx
@@ -74,36 +85,27 @@ function ProductosAdmin({ products, setProducts }) {
     <div className="fondo-admin">
       <div className="products-page">
         <div className="projects-wrapper">
+
           <h1 className="projects-title">Administrar productos</h1>
 
+          {/* 🔍 4. Buscador */}
+          <Buscador
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="mb-3"
+          />
+
           <div className="projects-row">
-            {products.map((product) => (
-              <div
+
+            {productosFiltrados.map((product) => (
+              <ProductRow
                 key={product.id}
-                className="product-card admin-product-card"
-              >
-                <ProductCard product={product} />
-
-                <div className="admin-actions">
-                  <Button
-                    variant="secondary"
-                    className="me-2"
-                    onClick={() => handleEdit(product)}
-                  >
-                    Editar
-                  </Button>
-
-                  <Button
-                    variant="danger"
-                    onClick={() => handleDelete(product.id)}
-                  >
-                    Eliminar
-                  </Button>
-                </div>
-              </div>
+                producto={product}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+              />
             ))}
           </div>
-
         </div>
       </div>
     </div>
