@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Input from '../atoms/Input';
 import Button from '../atoms/Button';
 import Text from '../atoms/Text';
+import { useNavigate } from "react-router-dom";
 
 
 function FormularioRegistro({
@@ -10,6 +11,7 @@ function FormularioRegistro({
   modo = "registro",    // "registro" | "editar"
   usuarioInicial = {}
 }) {
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     run: usuarioInicial.run || "",
@@ -154,7 +156,16 @@ function FormularioRegistro({
       {renderInput("direccion", "text", "Dirección")}
       {renderInput("numero_telefono", "text", "Número telefónico")}
 
-      <Button type="submit" className="mt-3" variant="primary">
+      <Button
+        type="submit"
+        className="mt-3"
+        variant="primary"
+        onClick={() => {
+          if (modo === "registro") {
+            setTimeout(() => navigate("/login"), 300);
+          }
+        }}
+      >
         {modo === "registro" ? "Registrarse" : "Guardar cambios"}
       </Button>
     </form>
