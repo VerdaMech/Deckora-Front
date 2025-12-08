@@ -88,6 +88,14 @@ function ProductosAdmin({ products, setProducts }) {
 
           <h1 className="projects-title">Administrar productos</h1>
 
+          <Button
+              variant="secondary"
+              type="button"
+              onClick={""}
+            >
+              Crear Producto
+            </Button>
+
           <Buscador
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
