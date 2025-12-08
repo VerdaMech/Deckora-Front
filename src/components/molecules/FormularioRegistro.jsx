@@ -110,67 +110,50 @@ function FormularioRegistro({
     }
   };
 
+  const renderInput = (field, type = "text", label = "") => (
+    <div className="edit-field-wrapper">
+      {modo === "editar" && (
+        <label className="edit-label">{label}</label>
+      )}
+
+      <Input
+        type={type}
+        placeholder={modo === "editar" ? "" : label}
+        value={values[field]}
+        onChange={(e) => handleChange(field, e.target.value)}
+        className={modo === "editar" ? "edit-input" : ""}
+      />
+
+      {errors[field] && <Text className="error">{errors[field]}</Text>}
+    </div>
+  );
+
   return (
     <form onSubmit={handleSubmit}>
 
       {/* CAMPOS COMUNES */}
-      <Input placeholder="RUN"
-        value={values.run}
-        onChange={(e) => handleChange("run", e.target.value)}
-      />
-
-      <Input placeholder="Nombre"
-        value={values.nombre}
-        onChange={(e) => handleChange("nombre", e.target.value)}
-      />
-
-      <Input placeholder="Apellido"
-        value={values.apellido}
-        onChange={(e) => handleChange("apellido", e.target.value)}
-      />
-
-      <Input type="email" placeholder="Correo"
-        value={values.correo}
-        onChange={(e) => handleChange("correo", e.target.value)}
-      />
+      {renderInput("run", "text", "RUN")}
+      {renderInput("nombre", "text", "Nombre")}
+      {renderInput("apellido", "text", "Apellido")}
+      {renderInput("correo", "email", "Correo")}
 
       {/* SOLO EN REGISTRO → Confirmación correo */}
       {modo === "registro" && (
-        <Input
-          type="email"
-          placeholder="Confirmar correo"
-          value={values.confirmarCorreo}
-          onChange={(e) => handleChange("confirmarCorreo", e.target.value)}
-        />
+        renderInput("confirmarCorreo", "email", "Confirmar correo")
+      )}
+      
+      {renderInput(
+        "contrasenia",
+        "password",
+        modo === "registro" ? "Contraseña" : "Nueva contraseña (opcional)"
       )}
 
-      {/* CONTRASEÑA → requerida en registro, opcional en edición */}
-      <Input
-        type="password"
-        placeholder={modo === "registro" ? "Contraseña" : "Nueva contraseña (opcional)"}
-        value={values.contrasenia}
-        onChange={(e) => handleChange("contrasenia", e.target.value)}
-      />
-
-      {/* SOLO EN REGISTRO → Confirmación contraseña */}
       {modo === "registro" && (
-        <Input
-          type="password"
-          placeholder="Confirmar contraseña"
-          value={values.confirmarContrasenia}
-          onChange={(e) => handleChange("confirmarContrasenia", e.target.value)}
-        />
+        renderInput("confirmarContrasenia", "password", "Confirmar contraseña")
       )}
 
-      <Input placeholder="Dirección"
-        value={values.direccion}
-        onChange={(e) => handleChange("direccion", e.target.value)}
-      />
-
-      <Input placeholder="Número telefónico"
-        value={values.numero_telefono}
-        onChange={(e) => handleChange("numero_telefono", e.target.value)}
-      />
+      {renderInput("direccion", "text", "Dirección")}
+      {renderInput("numero_telefono", "text", "Número telefónico")}
 
       <Button type="submit" className="mt-3" variant="primary">
         {modo === "registro" ? "Registrarse" : "Guardar cambios"}

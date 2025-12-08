@@ -35,3 +35,23 @@
   margin-right: auto;
   margin-top: 12px;
 }
+
+.edit-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.edit-label {
+  color: white;
+  margin-bottom: 6px;
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.edit-input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
