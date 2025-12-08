@@ -51,3 +51,26 @@
   outline: none;
   
 }
+
+
+.contact-page.registro-pagina {
+  min-height: calc(100vh - 140px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 0;
+}
+
+.contacto-form.registro input {
+  width: 100%;
+  margin-bottom: 15px;
+  padding: 12px 18px;
+  font-size: 1rem;
+}
+
+.contacto-form.registro .error {
+  margin-top: -8px;
+  margin-bottom: 12px;
+  color: red;
+  font-size: 0.85rem;
+}
