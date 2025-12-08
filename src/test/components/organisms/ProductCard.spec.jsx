@@ -1,32 +1,47 @@
 import React from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import ProductCard from '../../../components/organisms/ProductCard';
 
 describe('ProductCard Organism', () => {
-
   const product = {
     id: 15,
     nombre_producto: 'Producto Ejemplo',
     imagenes: [
       { ruta: 'https://example.com/img.jpg' }
-    ]
+    ],
+    categorias: [
+      {
+        categoria: {
+          descripcion: 'Mitos y Leyendas',
+        },
+      },
+    ],
+    precio: 1990,
   };
 
+  const renderCard = () =>
+    render(
+      <MemoryRouter>
+        <ProductCard product={product} />
+      </MemoryRouter>
+    );
+
   it('muestra el título del producto', () => {
-    render(<ProductCard product={product} />);
+    renderCard();
     expect(screen.getByText('Producto Ejemplo')).toBeTruthy();
   });
 
-
   it('muestra la imagen principal del producto', () => {
-    render(<ProductCard product={product} />);
-    const img = screen.getByRole('img');
+    renderCard();
+    const img = screen.getByAltText('Producto Ejemplo');
     expect(img.src).toContain('https://example.com/img.jpg');
   });
 
   it('muestra el botón "Ver detalles"', () => {
-    render(<ProductCard product={product} />);
+    renderCard();
     expect(screen.getByText('Ver detalles')).toBeTruthy();
   });
-
 });
+
+
