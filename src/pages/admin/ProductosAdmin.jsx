@@ -88,11 +88,10 @@ function ProductosAdmin({ products, setProducts }) {
 
           <h1 className="projects-title">Administrar productos</h1>
 
-          {/* 🔍 4. Buscador */}
           <Buscador
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="mb-3"
+            className="search-bar-admin mb-3"
           />
 
           <div className="product-list-column">
