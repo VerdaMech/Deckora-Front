@@ -14,7 +14,7 @@
 
 .product-row .product-row-thumb img {
   width: 60px !important;
-  height: 60px !important;
+  height: 90px !important;
   object-fit: cover !important;
   border-radius: 6px;
 }
