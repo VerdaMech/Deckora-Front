@@ -5,7 +5,6 @@ import Button from '../../components/atoms/Button';
 import '../../styles/pages/contacto.css'; 
 import '../../styles/admin.css';
 
-
 function EditarProductosAdmin({ products, setProducts }) {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -13,20 +12,18 @@ function EditarProductosAdmin({ products, setProducts }) {
   const product = products.find((p) => p.id === parseInt(id));
 
   const [formData, setFormData] = useState({
-    name: '',
-    section: '',
-    description: '',
-    price: '',
+    name: "",
+    section: "",
+    price: "",
   });
 
-
+  // Cargar datos iniciales desde el producto seleccionado
   useEffect(() => {
     if (product) {
       setFormData({
-        name: product.name || '',
-        section: product.section || '',
-        description: product.description || '',
-        price: product.price || '',
+        name: product.nombre_producto || "",
+        section: product.categorias?.[0]?.categoria?.descripcion || "",
+        price: product.precio || "",
       });
     }
   }, [product]);
@@ -46,109 +43,122 @@ function EditarProductosAdmin({ products, setProducts }) {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === 'price' ? Number(value) || '' : value,
+      [name]: name === "price" ? Number(value) || "" : value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  // ------- PATCH A LA API -------
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Construir body dinámico (solo enviar lo modificado)
+    const patchBody = {};
 
-    setProducts((prev) =>
-      prev.map((p) =>
-        p.id === product.id
-          ? {
-              ...p,
-              name: formData.name,
-              section: formData.section,
-              description: formData.description,
-              price: formData.price,
-            }
-          : p
-      )
-    );
+    if (formData.name !== product.nombre_producto) {
+      patchBody.nombre_producto = formData.name;
+    }
 
-    navigate('/admin/productos');
+    if (formData.price !== product.precio) {
+      patchBody.precio = Number(formData.price);
+    }
+
+    if (formData.section !== product.categorias?.[0]?.categoria?.descripcion) {
+      patchBody.categorias = [
+        {
+          categoria: {
+            descripcion: formData.section,
+          },
+        },
+      ];
+    }
+
+    try {
+      const resp = await fetch(
+        `https://deckrora-api.onrender.com/api/v2/productos/${product.id}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(patchBody),
+        }
+      );
+
+      if (!resp.ok) {
+        throw new Error("Error al actualizar el producto");
+      }
+
+      const updated = await resp.json();
+
+      // Actualizar estado global de productos
+      setProducts((prev) =>
+        prev.map((p) => (p.id === product.id ? updated : p))
+      );
+
+      navigate("/admin/productos");
+    } catch (error) {
+      console.error("PATCH ERROR:", error);
+      alert("No se pudo actualizar el producto");
+    }
   };
 
-  const handleCancel = () => {
-    navigate('/admin/productos');
-  };
+  const handleCancel = () => navigate("/admin/productos");
 
   return (
     <div className="fondo-admin">
-    <div className="contact-page">
-      <Container className="contacto-container">
-        <h1 className="contacto-title">Editar producto</h1>
+      <div className="contact-page">
+        <Container className="contacto-container">
+          <h1 className="contacto-title">Editar producto</h1>
 
-        <Form className="contacto-form" onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="nombre">
-            <Form.Label>Nombre</Form.Label>
-            <Form.Control
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              placeholder="Nombre del producto"
-              required
-            />
-          </Form.Group>
+          <Form className="contacto-form" onSubmit={handleSubmit}>
+            {/* Nombre */}
+            <Form.Group className="mb-3" controlId="nombre">
+              <Form.Label>Nombre</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                placeholder="Nombre del producto"
+                required
+              />
+            </Form.Group>
 
+            {/* Categoría */}
+            <Form.Group className="mb-3" controlId="categoria">
+              <Form.Label>Categoría</Form.Label>
+              <Form.Control
+                type="text"
+                name="section"
+                value={formData.section}
+                onChange={handleChange}
+                placeholder="Ej: Accesorios"
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="categoria">
-            <Form.Label>Categoria</Form.Label>
-            <Form.Control
-              type="text"
-              name="section"
-              value={formData.section}
-              onChange={handleChange}
-              placeholder="Categoria del producto"
-            />
-          </Form.Group>
+            {/* Precio */}
+            <Form.Group className="mb-3" controlId="precio">
+              <Form.Label>Precio</Form.Label>
+              <Form.Control
+                type="number"
+                name="price"
+                value={formData.price}
+                onChange={handleChange}
+                placeholder="1000"
+                min="0"
+              />
+            </Form.Group>
 
-          <Form.Group className="mb-3" controlId="descripcion">
-            <Form.Label>Descripción</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              placeholder="Descripción del producto"
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="precio">
-            <Form.Label>Precio</Form.Label>
-            <Form.Control
-              type="number"
-              name="price"
-              value={formData.price}
-              onChange={handleChange}
-              placeholder="1000"
-              min="0"
-            />
-          </Form.Group>
-
-          <div className="admin-edit-actions d-flex justify-content-end gap-2 mt-3">
-            <Button
-              variant="secondary"
-              type="button"
-              onClick={handleCancel}
-            >
-              Cancelar
-            </Button>
-
-            <Button
-              variant="primary"
-              type="submit"
-            >
-              Guardar cambios
-            </Button>
-          </div>
-        </Form>
-      </Container>
-    </div>
+            {/* Botones */}
+            <div className="admin-edit-actions d-flex justify-content-end gap-2 mt-3">
+              <Button variant="secondary" type="button" onClick={handleCancel}>
+                Cancelar
+              </Button>
+              <Button variant="primary" type="submit">
+                Guardar cambios
+              </Button>
+            </div>
+          </Form>
+        </Container>
+      </div>
     </div>
   );
 }
