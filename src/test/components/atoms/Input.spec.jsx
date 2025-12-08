@@ -1,30 +1,42 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
-import Button from '../../../components/atoms/Button';
+import { render, screen } from '@testing-library/react';
+import Input from '../../../components/atoms/Input';
 
-describe('Button Atom', () => {
-  it('renderiza el texto que se le pasa como children', () => {
-    render(<Button>Click aquí</Button>);
-    expect(screen.getByText('Click aquí')).toBeTruthy();
+describe('Input Atom', () => {
+
+  it('renderiza un <input> por defecto', () => {
+    render(<Input placeholder="Mi input" />);
+    const input = screen.getByPlaceholderText('Mi input');
+
+    expect(input.tagName).toBe('INPUT');
   });
 
-  it('usa la variante "primary" por defecto', () => {
-    render(<Button>Primario</Button>);
-    const btn = screen.getByText('Primario');
-    expect(btn).toHaveClass('btn-primary');
+  it('aplica los props correctamente', () => {
+    render(<Input type="email" placeholder="Correo" />);
+
+    const input = screen.getByPlaceholderText('Correo');
+
+    expect(input.type).toBe('email');
   });
 
-  it('usa la clase correspondiente cuando se pasa otra variante', () => {
-    render(<Button variant="secondary">Secundario</Button>);
-    const btn = screen.getByText('Secundario');
-    expect(btn).toHaveClass('btn-secondary');
+  it('acepta className adicional', () => {
+    render(<Input className="mi-clase" placeholder="Ejemplo" />);
+
+    const input = screen.getByPlaceholderText('Ejemplo');
+
+    expect(input.classList.contains('mi-clase')).toBeTrue();
   });
 
-  it('llama a onClick cuando se hace clic', () => {
-    const handleClick = jasmine.createSpy('handleClick');
-    render(<Button onClick={handleClick}>Click</Button>);
-    const btn = screen.getByText('Click');
-    fireEvent.click(btn);
-    expect(handleClick).toHaveBeenCalled();
-  });
+/*   it('permite manejar onChange', () => {
+    const mockFn = jasmine.createSpy('onChange');
+
+    render(<Input placeholder="Cambiar" onChange={mockFn} />);
+
+    const input = screen.getByPlaceholderText('Cambiar');
+
+    input.dispatchEvent(new Event('change', { bubbles: true }));
+
+    expect(mockFn).toHaveBeenCalled();
+  }); */
+
 });

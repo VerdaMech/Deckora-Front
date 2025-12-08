@@ -28,5 +28,8 @@ describe('NavBar Component', () => {
     expect(screen.getByText('Accesorios')).toBeTruthy();
     expect(screen.getByText('Inicio de sesión')).toBeTruthy();
     expect(screen.getByText('Carrito')).toBeTruthy();
+    expect(screen.getByText('Mis Compras')).toBeTruthy();
+    expect(screen.getByText('Inicio de sesión')).toBeTruthy();
+    expect(screen.getByText('Registro')).toBeTruthy();
   });
 });

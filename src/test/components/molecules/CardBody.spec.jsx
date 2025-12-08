@@ -6,7 +6,11 @@ describe('CardBody Molecule', () => {
   const props = {
     title: 'Carta Test',
     description: 'Descripción corta',
-    price: 1500,
+    link: 'www.ejemplo.com',
+    date: '2025-01-01',
+    fullDescription: 'Descripción completa',
+    phoneNumber: '123456789',
+    run: '12.345.678-9'
   };
 
   it('muestra el título', () => {
@@ -14,16 +18,34 @@ describe('CardBody Molecule', () => {
     expect(screen.getByText('Carta Test')).toBeTruthy();
   });
 
-  it('muestra la descripción', () => {
+  it('muestra la descripción corta', () => {
     render(<CardBody {...props} />);
     expect(screen.getByText('Descripción corta')).toBeTruthy();
   });
 
-  it('muestra el precio aunque esté formateado', () => {
+  it('muestra el link', () => {
     render(<CardBody {...props} />);
-    const precio = screen.getByText((content) =>
-      content.includes('1500') || content.includes('$1500')
-    );
-    expect(precio).toBeTruthy();
+    expect(screen.getByText('www.ejemplo.com')).toBeTruthy();
+  });
+
+  it('muestra la fecha', () => {
+    render(<CardBody {...props} />);
+    expect(screen.getByText('2025-01-01')).toBeTruthy();
+  });
+
+  it('muestra la descripción completa', () => {
+    render(<CardBody {...props} />);
+    expect(screen.getByText('Descripción completa')).toBeTruthy();
+  });
+
+  it('muestra el número telefónico', () => {
+    render(<CardBody {...props} />);
+    expect(screen.getByText('123456789')).toBeTruthy();
+  });
+
+  it('muestra el RUN', () => {
+    render(<CardBody {...props} />);
+    expect(screen.getByText('12.345.678-9')).toBeTruthy();
   });
 });
+

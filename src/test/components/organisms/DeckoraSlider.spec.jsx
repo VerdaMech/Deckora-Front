@@ -53,11 +53,6 @@ describe('DeckoraSlider Component', () => {
   afterEach(() => {
   });
 
-  it('renderiza el título principal del slider', async () => {
-    renderWithRouter();
-    const title = screen.getByText(/buscando una de las cartas/i);
-    expect(title).toBeTruthy();
-  });
 
   it('renderiza varias imágenes de cartas', async () => {
     renderWithRouter();

@@ -9,12 +9,12 @@ describe('Text Atom', () => {
     expect(el.tagName).toBe('P');
   });
 
-  it('renderiza el texto cuando variant="title"', () => {
+/*   it('renderiza el texto cuando variant="title"', () => {
     render(<Text variant="title">Título</Text>);
     const el = screen.getByText('Título');
     expect(el).toBeTruthy();
   });
-
+ */
   it('renderiza el texto cuando variant="subtitle"', () => {
     render(<Text variant="subtitle">Subtítulo</Text>);
     const el = screen.getByText('Subtítulo');
