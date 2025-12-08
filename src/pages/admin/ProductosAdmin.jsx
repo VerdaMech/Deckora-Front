@@ -12,7 +12,7 @@ function ProductosAdmin({ products, setProducts }) {
 
 
   const productosFiltrados = products.filter(p =>
-    p.nombre.toLowerCase().includes(searchTerm.toLowerCase())
+    (p.nombre_producto || "").toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   
