@@ -5,19 +5,11 @@ import Text from "../atoms/Text";
 import "../../styles/organisms/molecules/ProductRow.css";
 
 function ProductoRow({ producto, onEdit, onDelete }) {
-  const imagenUrl =
-    producto.imagens?.length > 0
-      ? producto.imagens[0].ruta
-      : "https://via.placeholder.com/50";
+  const imgUrl = producto.imagenes?.[0]?.ruta || "https://via.placeholder.com/60";
   return (
     <div className="product-row">
       <div className="product-row-thumb">
-        <Image
-          src={imagenUrl}
-          alt={producto.nombre_producto}
-          width={50}
-          height={50}
-        />
+        <img src={imgUrl} alt={producto.nombre_producto} />
       </div>
       <Text className="product-row-name">{producto.nombre_producto}</Text>
 
