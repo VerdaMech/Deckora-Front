@@ -50,6 +50,10 @@ function ProductosAdmin({ products, setProducts }) {
     loadIfNeeded();
   }, [products, setProducts]);
 
+  const handleCreate = () => {
+    navigate('/admin/productos/crear');
+  };
+
   const handleEdit = (product) => {
     navigate(`/admin/productos/${product.id}/editar`);
   };
@@ -91,7 +95,7 @@ function ProductosAdmin({ products, setProducts }) {
           <Button
               variant="secondary"
               type="button"
-              onClick={""}
+              onClick={handleCreate}
               className="crear-producto-btn"
             >
               Crear Producto
