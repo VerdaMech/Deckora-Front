@@ -10,6 +10,8 @@ import { Container, Card, Form } from "react-bootstrap";
 
 function CrearProductosAdmin({ setProducts }) {
   const navigate = useNavigate();
+  console.log("IMGBB KEY:", import.meta.env.VITE_IMGBB_API_KEY);
+
 
   // Form principal
   const [form, setForm] = useState({
@@ -138,7 +140,7 @@ function CrearProductosAdmin({ setProducts }) {
       setErrorMsg(err?.message || "Error inesperado");
     } finally {
       setIsSaving(false);
-    }
+    } 
   };
 
   return (
