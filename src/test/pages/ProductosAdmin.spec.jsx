@@ -1,12 +1,22 @@
-/* import React from 'react';
+import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import ProductosAdmin from '../../pages/admin/ProductosAdmin';
 
 describe('ProductosAdmin Page', () => {
   const mockProducts = [
-    { id: 1, name: 'Carta 1', section: 'Mitos', price: 1000 },
-    { id: 2, name: 'Carta 2', section: 'Pokémon', price: 2000 },
+    {
+      id: 1,
+      nombre_producto: 'Carta 1',
+      precio: 1000,
+      categorias: [],
+    },
+    {
+      id: 2,
+      nombre_producto: 'Carta 2',
+      precio: 2000,
+      categorias: [],
+    },
   ];
 
   it('renderiza los productos del administrador', () => {
@@ -20,4 +30,3 @@ describe('ProductosAdmin Page', () => {
     expect(screen.getByText('Carta 2')).toBeTruthy();
   });
 });
- */
