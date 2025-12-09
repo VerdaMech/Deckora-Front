@@ -10,8 +10,6 @@ import { Container, Card, Form } from "react-bootstrap";
 
 function CrearProductosAdmin({ setProducts }) {
   const navigate = useNavigate();
-  console.log("IMGBB KEY:", import.meta.env.VITE_IMGBB_API_KEY);
-
 
   // Form principal
   const [form, setForm] = useState({
@@ -144,6 +142,7 @@ function CrearProductosAdmin({ setProducts }) {
   };
 
   return (
+    
     <div className="fondo-admin">
       <div className="projects-wrapper">
         <h1 className="projects-title">Crear producto</h1>
