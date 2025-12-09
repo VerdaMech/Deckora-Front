@@ -11,31 +11,50 @@ function EditarProductosAdmin({ products, setProducts }) {
 
   const product = products.find((p) => p.id === parseInt(id));
 
+  const [categorias, setCategorias] = useState([]); 
   const [formData, setFormData] = useState({
     name: "",
-    section: "",
+    categoriaId: "",
     price: "",
   });
 
-  // Cargar datos iniciales desde el producto seleccionado
+// Cargar categorias
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const resp = await fetch(
+          "https://deckrora-api.onrender.com/api/v2/categorias"
+        );
+        if (!resp.ok) return;
+
+        const contentType = resp.headers.get("content-type") || "";
+        const data = contentType.includes("json")
+          ? await resp.json()
+          : {};
+
+        const lista = data._embedded?.categoriaList ?? [];
+        setCategorias(lista);
+      } catch (err) {
+        console.error("Error cargando categorías:", err);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
+
+// Cargar datos del producto
   useEffect(() => {
     if (product) {
       setFormData({
         name: product.nombre_producto || "",
-        section: product.categorias?.[0]?.categoria?.descripcion || "",
+        categoriaId: product.categorias?.[0]?.categoria?.id ?? "",
         price: product.precio || "",
       });
     }
   }, [product]);
 
   if (!product) {
-    return (
-      <div className="contact-page">
-        <Container className="contacto-container">
-          <h1 className="contacto-title">Producto no encontrado</h1>
-        </Container>
-      </div>
-    );
+    return <h1>Producto no encontrado</h1>;
   }
 
   const handleChange = (e) => {
@@ -47,60 +66,81 @@ function EditarProductosAdmin({ products, setProducts }) {
     }));
   };
 
-  // ------- PATCH A LA API -------
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+// Patch
+const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // Construir body dinámico (solo enviar lo modificado)
-    const patchBody = {};
+  const patchBody = {};
 
-    if (formData.name !== product.nombre_producto) {
-      patchBody.nombre_producto = formData.name;
-    }
+  // Cambios del nombre
+  if (formData.name !== product.nombre_producto) {
+    patchBody.nombre_producto = formData.name;
+  }
 
-    if (formData.price !== product.precio) {
-      patchBody.precio = Number(formData.price);
-    }
+  // Cambios del precio
+  if (formData.price !== product.precio) {
+    patchBody.precio = Number(formData.price);
+  }
 
-    if (formData.section !== product.categorias?.[0]?.categoria?.descripcion) {
-      patchBody.categorias = [
-        {
-          categoria: {
-            descripcion: formData.section,
-          },
-        },
-      ];
-    }
+  // === MANEJO DE CATEGORÍAS ===
 
-    try {
-      const resp = await fetch(
-        `https://deckrora-api.onrender.com/api/v2/productos/${product.id}`,
-        {
-          method: "PATCH",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(patchBody),
-        }
-      );
+  const categoriaActual = product.categorias?.[0];
+  const idRelacionActual = categoriaActual?.id; // ID en ProductosCategorias
+  const categoriaActualId = categoriaActual?.categoria?.id;
 
-      if (!resp.ok) {
-        throw new Error("Error al actualizar el producto");
+  const nuevaCategoriaId = Number(formData.categoriaId);
+
+  const categoriaCambiada = nuevaCategoriaId !== categoriaActualId;
+
+  try {
+    // Si la categoría cambió:
+    if (categoriaCambiada) {
+      // 1️⃣ BORRAR RELACIÓN ACTUAL
+      if (idRelacionActual) {
+        await fetch(
+          `https://deckrora-api.onrender.com/api/v2/productosCategorias/${idRelacionActual}`,
+          { method: "DELETE" }
+        );
       }
 
-      const updated = await resp.json();
-
-      // Actualizar estado global de productos
-      setProducts((prev) =>
-        prev.map((p) => (p.id === product.id ? updated : p))
-      );
-
-      navigate("/admin/productos");
-    } catch (error) {
-      console.error("PATCH ERROR:", error);
-      alert("No se pudo actualizar el producto");
+      // 2️⃣ CREAR NUEVA RELACIÓN
+      await fetch(`https://deckrora-api.onrender.com/api/v2/productosCategorias`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          producto: { id: product.id },
+          categoria: { id: nuevaCategoriaId }
+        })
+      });
     }
-  };
 
-  const handleCancel = () => navigate("/admin/productos");
+    // === PATCH del producto (solo nombre/precio) ===
+    const resp = await fetch(
+      `https://deckrora-api.onrender.com/api/v2/productos/${product.id}`,
+      {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(patchBody),
+      }
+    );
+
+    if (!resp.ok) throw new Error("Error al actualizar el producto");
+
+    const updated = await resp.json();
+
+    // Actualizar estado global
+    setProducts((prev) =>
+      prev.map((p) => (p.id === product.id ? updated : p))
+    );
+
+    alert("Producto editado correctamente.");
+    navigate("/admin/productos");
+  } catch (error) {
+    console.error("PATCH ERROR:", error);
+    alert("No se pudo actualizar el producto");
+  }
+};
+
 
   return (
     <div className="fondo-admin">
@@ -109,49 +149,55 @@ function EditarProductosAdmin({ products, setProducts }) {
           <h1 className="contacto-title">Editar producto</h1>
 
           <Form className="contacto-form" onSubmit={handleSubmit}>
+
             {/* Nombre */}
-            <Form.Group className="mb-3" controlId="nombre">
+            <Form.Group className="mb-3">
               <Form.Label>Nombre</Form.Label>
               <Form.Control
                 type="text"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="Nombre del producto"
                 required
               />
             </Form.Group>
 
             {/* Categoría */}
-            <Form.Group className="mb-3" controlId="categoria">
+            <Form.Group className="mb-3">
               <Form.Label>Categoría</Form.Label>
-              <Form.Control
-                type="text"
-                name="section"
-                value={formData.section}
+              <Form.Select
+                name="categoriaId"
+                value={formData.categoriaId}
                 onChange={handleChange}
-                placeholder="Ej: Accesorios"
-              />
+                required
+              >
+                <option value="">Seleccione categoría</option>
+
+                {categorias.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.descripcion}
+                  </option>
+                ))}
+              </Form.Select>
             </Form.Group>
 
             {/* Precio */}
-            <Form.Group className="mb-3" controlId="precio">
+            <Form.Group className="mb-3">
               <Form.Label>Precio</Form.Label>
               <Form.Control
                 type="number"
                 name="price"
                 value={formData.price}
                 onChange={handleChange}
-                placeholder="1000"
                 min="0"
               />
             </Form.Group>
 
-            {/* Botones */}
             <div className="admin-edit-actions d-flex justify-content-end gap-2 mt-3">
-              <Button variant="secondary" type="button" onClick={handleCancel}>
+              <Button variant="secondary" type="button" onClick={() => navigate("/admin/productos")}>
                 Cancelar
               </Button>
+
               <Button variant="primary" type="submit">
                 Guardar cambios
               </Button>
