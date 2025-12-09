@@ -10,6 +10,7 @@ import NavBar from './components/organisms/NavBar';
 import Footer from './components/organisms/footer';
 import ProductosAdmin from './pages/admin/ProductosAdmin';
 import EditarProductosAdmin from './pages/admin/EditarProductosAdmin';
+import CrearProductosAdmin from './pages/admin/CrearProductosAdmin';
 import Carrito from './pages/Carrito';
 import Login from './pages/Login';
 import Registro from './pages/Registro';
@@ -145,6 +146,9 @@ function App() {
               <EditarProductosAdmin products={products} setProducts={setProducts} />
             }
           />
+
+          <Route path="/admin/productos/crear"element={<CrearProductosAdmin setProducts={setProducts}/>}/>
+          
           <Route 
             path="/admin/usuarios/:id/editar" 
             element={<EditarUsuariosAdmin />}
