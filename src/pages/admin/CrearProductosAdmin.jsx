@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from '../../components/atoms/Button';
-import uploadImageToImgbb from '../../utils/UploadImage';
+import uploadImageToImgbb from '../../utils/uploadImage';
 import InputFile from '../../components/atoms/InputFile';
 
 import '../../styles/pages/proyectos.css';
