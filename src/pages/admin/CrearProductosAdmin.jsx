@@ -1,9 +1,8 @@
-// src/pages/admin/CrearProductosAdmin.jsx
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Button from '../../components/atoms/Button';
-import InputFile from '../../components/atoms/InputFile';
 import uploadImageToImgbb from '../../utils/UploadImage';
+import InputFile from '../../components/atoms/InputFile';
 
 import '../../styles/pages/proyectos.css';
 import '../../styles/admin.css';
@@ -11,22 +10,52 @@ import '../../styles/admin.css';
 function CrearProductosAdmin({ setProducts }) {
   const navigate = useNavigate();
 
+  // Form principal
   const [form, setForm] = useState({
-    nombre_producto: '',
-    descripcion: '',
-    precio: '',
-    stock: '',
+    nombre_producto: "",
+    descripcion: "",
+    precio: "",
+    stock: "",
+    categoriaId: "" // <-- NUEVO
   });
 
+  const [categorias, setCategorias] = useState([]); // <-- NUEVO
   const [imageFile, setImageFile] = useState(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
+  const [errorMsg, setErrorMsg] = useState("");
 
+  // -----------------------------
+  // 1) Cargar categorías al iniciar
+  // -----------------------------
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      try {
+        const resp = await fetch("https://deckrora-api.onrender.com/api/v2/categorias");
+        if (!resp.ok) return;
+
+        const contentType = resp.headers.get("content-type") || "";
+        let data = contentType.includes("json") ? await resp.json() : [];
+
+        // La API V2 devuelve HAL, así que buscamos el _embedded
+        const lista = data._embedded?.categoriaList ?? [];
+
+        setCategorias(lista);
+      } catch (err) {
+        console.error("Error cargando categorías:", err);
+      }
+    };
+
+    fetchCategorias();
+  }, []);
+
+  // -----------------------------
+  // Manejo de inputs
+  // -----------------------------
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: value
     }));
   };
 
@@ -35,133 +64,91 @@ function CrearProductosAdmin({ setProducts }) {
     setImageFile(file || null);
   };
 
+  // ---------------------------------------------
+  // 2) Submit corregido con el flujo correcto
+  // ---------------------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSaving(true);
-    setErrorMsg('');
+    setErrorMsg("");
 
     try {
-      let imagenId = null;
-      let imagenUrl = null;
-
-      // 1) Subir imagen a imgbb (si se seleccionó archivo)
-      if (imageFile) {
-        imagenUrl = await uploadImageToImgbb(imageFile);
-        console.log('URL de imagen subida a imgbb:', imagenUrl);
-
-        if (imagenUrl) {
-          // 2) Crear entidad Imagen en el backend: POST /api/v1/imagenes
-          const respImg = await fetch(
-            'https://deckrora-api.onrender.com/api/v1/imagenes',
-            {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                ruta: imagenUrl,
-              }),
-            }
-          );
-
-          const contentTypeImg = respImg.headers.get('content-type') || '';
-          let dataImg;
-          if (contentTypeImg.includes('application/json')) {
-            dataImg = await respImg.json();
-          } else {
-            dataImg = await respImg.text();
-          }
-
-          console.log(
-            'Respuesta crear imagen (POST /api/v1/imagenes):',
-            respImg.status,
-            dataImg
-          );
-
-          if (respImg.ok && dataImg && typeof dataImg === 'object') {
-            // asumimos respuesta tipo { id, ruta, _links... }
-            imagenId = dataImg.id ?? null;
-          } else {
-            console.warn(
-              'No se pudo crear la entidad imagen, se creará el producto sin imagen.'
-            );
-          }
-        }
-      }
-
-      // 3) Construir el JSON del producto para /api/v2/productos
+      // --------------------------------------
+      // A) Crear producto primero
+      // --------------------------------------
       const nuevoProducto = {
-        id: 0,
         nombre_producto: form.nombre_producto,
         descripcion: form.descripcion,
         precio: Number(form.precio),
-        cantidad: Number(form.stock),
-        categorias: [],
+        cantidad: Number(form.stock)
       };
 
-      // Si logramos crear imagen en el backend, la asociamos por ID
-      if (imagenId != null) {
-        nuevoProducto.imagenes = [
-          {
-            id: imagenId,
-          },
-        ];
-      }
-
-      console.log(
-        'JSON que se enviará a POST /api/v2/productos:',
-        nuevoProducto
-      );
-
-      const response = await fetch(
-        'https://deckrora-api.onrender.com/api/v2/productos',
+      const respProd = await fetch(
+        "https://deckrora-api.onrender.com/api/v2/productos",
         {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(nuevoProducto),
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(nuevoProducto)
         }
       );
 
-      const contentType = response.headers.get('content-type') || '';
-      let dataRespuesta;
-      if (contentType.includes('application/json')) {
-        dataRespuesta = await response.json();
-      } else {
-        dataRespuesta = await response.text();
-      }
+      const productoCreado = await respProd.json();
 
-      console.log(
-        'Respuesta cruda del backend (POST /productos):',
-        response.status,
-        dataRespuesta
-      );
-
-      if (!response.ok) {
-        const msgBackend =
-          typeof dataRespuesta === 'string'
-            ? dataRespuesta
-            : JSON.stringify(dataRespuesta);
-
-        setErrorMsg(`Error ${response.status}: ${msgBackend}`);
+      if (!respProd.ok) {
+        setErrorMsg("Error creando producto: " + JSON.stringify(productoCreado));
         return;
       }
 
-      const creado = dataRespuesta;
+      const productoId = productoCreado.id;
+      console.log("Producto creado:", productoCreado);
 
-      if (setProducts) {
-        setProducts((prev) => [...prev, creado]);
+      // --------------------------------------
+      // B) Si hay imagen → subir a imgbb y crear en backend
+      // --------------------------------------
+      if (imageFile) {
+        const imagenUrl = await uploadImageToImgbb(imageFile);
+        console.log("Imagen subida a imgbb:", imagenUrl);
+
+        await fetch("https://deckrora-api.onrender.com/api/v1/imagenes", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ruta: imagenUrl,
+            producto: { id: productoId }
+          })
+        });
       }
 
-      alert('Producto creado correctamente.');
-      navigate('/admin/productos');
+      // --------------------------------------
+      // C) Asociar categoría si fue seleccionada
+      // --------------------------------------
+      if (form.categoriaId) {
+        await fetch(
+          "https://deckrora-api.onrender.com/api/v2/productosCategorias",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              producto: { id: productoId },
+              categoria: { id: Number(form.categoriaId) }
+            })
+          }
+        );
+      }
+
+      // --------------------------------------
+      // D) Actualizar estado y navegar
+      // --------------------------------------
+      if (setProducts) {
+        setProducts((prev) => [...prev, productoCreado]);
+      }
+
+      alert("Producto creado correctamente.");
+      navigate("/admin/productos");
+
     } catch (err) {
-      console.error('Error de red o JS al crear producto:', err);
-      setErrorMsg(
-        err?.message ||
-          'No se pudo crear el producto (error inesperado en el frontend).'
-      );
+      console.error("Error al crear producto:", err);
+      setErrorMsg(err?.message || "Error inesperado");
     } finally {
       setIsSaving(false);
     }
@@ -211,10 +198,26 @@ function CrearProductosAdmin({ setProducts }) {
               required
             />
 
-            <InputFile
-              label="Imagen del producto"
-              onChange={handleFileChange}
-            />
+            {/* ---------------------------- */}
+            {/* SELECT DE CATEGORÍAS NUEVO */}
+            {/* ---------------------------- */}
+            <label>Categoría</label>
+            <select
+              name="categoriaId"
+              value={form.categoriaId}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Seleccione categoría</option>
+              {categorias.map((cat) => (
+                <option key={cat.id} value={cat.id}>
+                  {cat.descripcion}
+                </option>
+              ))}
+            </select>
+
+            {/* Imagen */}
+            <InputFile label="Imagen del producto" onChange={handleFileChange} />
 
             {errorMsg && <p className="error-text">{errorMsg}</p>}
 
@@ -222,17 +225,13 @@ function CrearProductosAdmin({ setProducts }) {
               <Button
                 type="button"
                 variant="secondary"
-                onClick={() => navigate('/admin/productos')}
+                onClick={() => navigate("/admin/productos")}
               >
                 Cancelar
               </Button>
 
-              <Button
-                type="submit"
-                variant="primary"
-                disabled={isSaving}
-              >
-                {isSaving ? 'Guardando...' : 'Guardar producto'}
+              <Button type="submit" variant="primary" disabled={isSaving}>
+                {isSaving ? "Guardando..." : "Guardar producto"}
               </Button>
             </div>
           </form>
