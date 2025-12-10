@@ -44,7 +44,9 @@ function Registro() {
         <h1 className="registro-title">Crear cuenta</h1>
         <p className="registro-subtitle">Completa tus datos para continuar</p>
 
-        <FormularioRegistro modo="registro" />
+        <FormularioRegistro 
+          modo="registro"
+          registrarUsuario={handleRegistro}/>
       </div>
     </div>
   );
